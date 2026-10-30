@@ -2406,7 +2406,7 @@ h4.pw-blk-h.pw-blk-h-tg { display: flex; align-items: center; justify-content: s
 #pwRoot .pw-subsection .pw-card .pw-head { background:var(--pw-wash); }
 #pwRoot .pw-subsection .pw-card .pw-word, #pwRoot .pw-word-label { color:var(--pw-ink); }
 #pwRoot .pw-subsection .pw-card .pw-card-stripe { background:var(--pw-edge); }
-#pwRoot .pw-context-word, #pwRoot .pw-hw.pw-context-word { color:var(--pw-ink); background:var(--pw-wash); font-weight:650; border:0; border-radius:3px; padding:0 .08em; text-decoration:none; }
+#pwRoot .pw-context-word, #pwRoot .pw-hw.pw-context-word { color:var(--pw-ink); background:transparent; font-weight:inherit; border:0; border-radius:0; padding:0; text-decoration:none; }
 #pwRoot .pw-paired-example { margin:.25rem 0; line-height:1.45; }
 #pwRoot .pw-paired-ru { color:var(--color-text-muted); margin-top:.12rem; }
 #pwRoot .pw-more-examples summary { cursor:pointer; color:var(--color-text-muted); font-size:.88em; padding:.2rem 0; }
@@ -2454,7 +2454,7 @@ h4.pw-blk-h.pw-blk-h-tg { display: flex; align-items: center; justify-content: s
 #pwRoot .pw-main-table th:nth-child(4), #pwRoot #pwTable.pw-main-table th:nth-child(4) { width:14%; }
 #pwRoot .pw-main-table th:nth-child(5), #pwRoot #pwTable.pw-main-table th:nth-child(5) { width:28%; }
 #pwRoot .pw-main-table th:nth-child(6), #pwRoot #pwTable.pw-main-table th:nth-child(6) { width:16%; }
-#pwRoot .pw-main-table tbody .pw-common-word { vertical-align:middle; text-align:center; }
+#pwRoot .pw-main-table tbody .pw-common-word { vertical-align:middle; text-align:left; padding-left:.65rem; }
 #pwRoot .pw-common-word .pw-word-label { display:block; font-size:1.38rem; font-weight:750; color:var(--pw-ink); }
 #pwRoot .pw-main-table .pw-word-start > td, #pwRoot .pw-main-table .pw-word-start > th { border-top:2px solid var(--pw-group-bd); }
 #pwRoot .pw-main-table .pw-word-continuation > td { border-top:0; }
@@ -2481,8 +2481,8 @@ h4.pw-blk-h.pw-blk-h-tg { display: flex; align-items: center; justify-content: s
 @media (max-width:640px) { #pwRoot { --pw-content-width:calc(100vw - 24px); } #pwRoot .pw-toolbar-top { flex-wrap:wrap; } #pwRoot .pw-progress-tools { flex-basis:100%; } #pwRoot .pw-progress-tools .pw-stats, #pwRoot .pw-progress-tools .pw-filters { justify-content:flex-start; } }
 #pwRoot [data-pw-group="ough"], #pwRoot .pw-group-switches [data-value="ough"] { --pw-pastel:#F3E9D9; --pw-group-fg:var(--tint-amber-fg); --pw-group-bg:color-mix(in srgb,var(--pw-pastel) var(--pw-pastel-weight),var(--color-surface)); --pw-group-bd:color-mix(in srgb,var(--pw-group-fg) 38%,var(--color-border)); }
 #pwRoot [data-pw-group="L"], #pwRoot .pw-group-switches [data-value="L"] { --pw-pastel:#DCEBFA; --pw-group-fg:var(--tint-blue-fg); --pw-group-bg:color-mix(in srgb,var(--pw-pastel) var(--pw-pastel-weight),var(--color-surface)); --pw-group-bd:color-mix(in srgb,var(--pw-group-fg) 38%,var(--color-border)); }
-#pwRoot [data-pw-group="P"], #pwRoot .pw-group-switches [data-value="P"] { --pw-pastel:#F6DEDA; --pw-group-fg:var(--tint-orange-fg); --pw-group-bg:color-mix(in srgb,var(--pw-pastel) var(--pw-pastel-weight),var(--color-surface)); --pw-group-bd:color-mix(in srgb,var(--pw-group-fg) 38%,var(--color-border)); }
-#pwRoot [data-pw-group="D"], #pwRoot .pw-group-switches [data-value="D"] { --pw-pastel:#E1EEDF; --pw-group-fg:var(--tint-green-fg); --pw-group-bg:color-mix(in srgb,var(--pw-pastel) var(--pw-pastel-weight),var(--color-surface)); --pw-group-bd:color-mix(in srgb,var(--pw-group-fg) 38%,var(--color-border)); }
+#pwRoot [data-pw-group="P"], #pwRoot .pw-group-switches [data-value="P"] { --pw-pastel:var(--pw-p-pastel); --pw-group-fg:var(--pw-p-ink); --pw-group-bg:color-mix(in srgb,var(--pw-pastel) var(--pw-pastel-weight),var(--color-surface)); --pw-group-bd:color-mix(in srgb,var(--pw-group-fg) 38%,var(--color-border)); }
+#pwRoot [data-pw-group="D"], #pwRoot .pw-group-switches [data-value="D"] { --pw-pastel:var(--pw-d-pastel); --pw-group-fg:var(--pw-d-ink); --pw-group-bg:color-mix(in srgb,var(--pw-pastel) var(--pw-pastel-weight),var(--color-surface)); --pw-group-bd:color-mix(in srgb,var(--pw-group-fg) 38%,var(--color-border)); }
 #pwRoot [data-pw-group="Q"], #pwRoot .pw-group-switches [data-value="Q"] { --pw-pastel:#D5F0EF; --pw-group-fg:var(--tint-teal-fg); --pw-group-bg:color-mix(in srgb,var(--pw-pastel) var(--pw-pastel-weight),var(--color-surface)); --pw-group-bd:color-mix(in srgb,var(--pw-group-fg) 38%,var(--color-border)); }
 #pwRoot [data-pw-group="F"], #pwRoot .pw-group-switches [data-value="F"] { --pw-pastel:#E9DDF7; --pw-group-fg:var(--tint-purple-fg); --pw-group-bg:color-mix(in srgb,var(--pw-pastel) var(--pw-pastel-weight),var(--color-surface)); --pw-group-bd:color-mix(in srgb,var(--pw-group-fg) 38%,var(--color-border)); }
 [data-theme="dark"] #pwRoot { --pw-pastel-weight:18%; }
@@ -2490,6 +2490,26 @@ h4.pw-blk-h.pw-blk-h-tg { display: flex; align-items: center; justify-content: s
 [data-theme="luna"] #pwRoot { --pw-pastel-weight:18%; }
 [data-theme="celtic"] #pwRoot { --pw-pastel-weight:18%; }
 [data-theme="space"] #pwRoot { --pw-pastel-weight:18%; }
+
+/* Consistent text-only word accents and compact, centered study surfaces. */
+#pwRoot { --pw-p-base:#D97FA3; --pw-d-base:#A8B98A; --pw-p-pastel:#F7E0E9; --pw-d-pastel:#E5EBD9;
+ --pw-p-ink:color-mix(in srgb,var(--pw-p-base) 40%,var(--color-text));
+ --pw-d-ink:color-mix(in srgb,var(--pw-d-base) 40%,var(--color-text)); }
+[data-theme="london"] #pwRoot { --pw-p-ink:color-mix(in srgb,var(--pw-p-base) 30%,var(--color-text)); --pw-d-ink:color-mix(in srgb,var(--pw-d-base) 30%,var(--color-text)); }
+#pwRoot .pw-group-table { width:80%; margin-inline:auto; box-sizing:border-box; }
+#pwRoot .pw-group-comparisons { width:80%; max-width:1152px; margin-inline:auto; }
+#pwRoot .pw-main-table tbody .pw-common-word { text-align:left; padding-left:.65rem; }
+#pwRoot .pw-main-table [data-label="Вариант слова"] > span { color:var(--pw-ink); }
+#pwRoot .pw-spelling-diff { background:transparent; border:0; border-radius:0; padding:0; text-decoration:none; font-weight:inherit; }
+#pwRoot .pw-context-word, #pwRoot .pw-hw.pw-context-word { background:transparent; border:0; outline:0; box-shadow:none; text-decoration:none; font-weight:inherit; padding:0; }
+#pwRoot .pw-group-switches .pw-chip {
+ background:linear-gradient(135deg,var(--pw-group-bg,var(--color-surface-2)),color-mix(in srgb,var(--pw-group-fg,var(--color-primary)) 16%,var(--color-surface)));
+}
+#pwRoot .pw-group-switches .pw-chip[aria-pressed="true"] {
+ background:linear-gradient(135deg,color-mix(in srgb,var(--pw-group-fg,var(--color-primary)) 32%,var(--color-surface)),var(--pw-group-bg,var(--color-surface-2)));
+}
+@media (max-width:1200px) { #pwRoot .pw-group-table, #pwRoot .pw-group-comparisons { width:100%; } }
+
 </style>
 <section class="section active" data-section="similar" data-tint="blue" role="tabpanel">
     <h3 class="s-title">Похожие слова: through, thorough, though, thought, tough и другие</h3>
@@ -24369,8 +24389,9 @@ PW_CMP.push.apply(PW_CMP, [
     var words = PW_DATA.filter(function(w) { return w.series === group; });
     var index = w ? words.indexOf(w) : Array.from(id).reduce(function(n,c) { return n+c.charCodeAt(0); },0) % words.length;
     var t = index / Math.max(1, words.length-1);
-    var base = 'var(--tint-'+PW_GROUP_COLORS[group]+'-fg)';
-    return PW_WORD_STYLES[id] = '--pw-ink:color-mix(in srgb,'+base+' '+(20+t*30).toFixed(3)+'%,var(--color-text));--pw-wash:color-mix(in srgb,'+base+' '+(6+t*12).toFixed(3)+'%,var(--color-surface));--pw-edge:color-mix(in srgb,'+base+' '+(35+t*25).toFixed(3)+'%,var(--color-border));';
+    var strength = (group === 'P' || group === 'D') ? 70+t*30 : 20+t*30;
+    var base = group === 'P' ? 'var(--pw-p-ink)' : group === 'D' ? 'var(--pw-d-ink)' : 'var(--tint-'+PW_GROUP_COLORS[group]+'-fg)';
+    return PW_WORD_STYLES[id] = '--pw-ink:color-mix(in srgb,'+base+' '+strength.toFixed(3)+'%,var(--color-text));--pw-wash:color-mix(in srgb,'+base+' '+(6+t*12).toFixed(3)+'%,var(--color-surface));--pw-edge:color-mix(in srgb,'+base+' '+(35+t*25).toFixed(3)+'%,var(--color-border));';
   }
   function pwSpanMarkup(text, ranges, id) {
     var out = '', from = 0;
