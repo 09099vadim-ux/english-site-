@@ -1558,7 +1558,7 @@ nav.tabs button[data-tab].quiz-done::after { content: " ✓"; color: var(--color
 .lx-section .lx-title { display:block; margin:0 0 .25rem; }
 .lx-section .lx-summary { display:block; font-size:var(--text-xs); font-weight:700; line-height:1.5; color:var(--lx-c); overflow-wrap:anywhere; }
 .lx-section .lx-toggle .lx-tg-icon { flex:none; margin:.3rem; transform:rotate(45deg); }
-.lx-section .lx-card.is-open .lx-toggle .lx-tg-icon { transform:rotate(225deg); }
+.lx-section .lx-toggle[aria-expanded="true"] .lx-tg-icon { transform:rotate(225deg); }
 .lx-section .lx-tg-txt { position:absolute; width:1px; height:1px; padding:0; overflow:hidden; clip-path:inset(50%); white-space:nowrap; writing-mode:horizontal-tb; }
 .lx-section .lx-hit { padding:0 var(--space-4) var(--space-3); margin:0; }
 .lx-section .lx-panel { padding:var(--space-4); margin:0; border-top:1px solid var(--lx-line); }
@@ -1648,7 +1648,18 @@ nav.tabs button[data-tab].quiz-done::after { content: " ✓"; color: var(--color
 .lx-section .lx-family { display:contents; --lx-c:oklch(var(--lx-L) var(--lx-C) var(--lx-hue)); --lx-line:color-mix(in srgb,hsl(var(--lx-hue) 70% 50%) 32%,var(--color-border)); --lx-bar:hsl(var(--lx-hue) 68% 48%); --lx-soft:color-mix(in srgb,hsl(var(--lx-hue) 70% 50%) 9%,var(--color-surface)); }
 .lx-section .lx-family[hidden], .lx-section .lx-family-panel[hidden] { display:none; }
 .lx-section .lx-family-panel { grid-column:1 / -1; order:1; min-width:0; padding:18px; box-sizing:border-box; margin-top:36px; border:1px solid var(--lx-line); border-radius:10px; background:var(--color-surface); }
-.lx-section .lx-subgroups { display:flex; flex-direction:column; gap:12px; margin-top:16px; }
+.lx-section .lx-subgroups { display:block; margin-top:16px; min-width:0; }
+.lx-section .lx-subgroup-choice[hidden] { display:none; }
+.lx-section .lx-subgroup-nav { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; align-items:stretch; }
+.lx-section .lx-subgroup-choice { --lx-c:oklch(var(--lx-L) var(--lx-C) var(--lx-hue)); --lx-line:color-mix(in srgb,hsl(var(--lx-hue) 70% 50%) 32%,var(--color-border)); --lx-bar:hsl(var(--lx-hue) 68% 48%); --lx-soft:color-mix(in srgb,hsl(var(--lx-hue) 70% 50%) 9%,var(--color-surface)); }
+.lx-section .lx-sen .lx-f { display:block; margin:0 0 5px; }
+.lx-section .lx-kv>b, .lx-section .lx-gov>b { display:block; margin-bottom:4px; }
+.lx-section .lx-field-list { margin:5px 0 0; padding-left:18px; }
+.lx-section .lx-field-list>li { padding-left:2px; margin:0 0 6px; }
+@media (max-width:720px) {
+ .lx-section .lx-subgroup-nav { display:flex; overflow-x:auto; gap:10px; padding:5px 4px 10px; scroll-snap-type:x proximity; }
+ .lx-section .lx-subgroup-nav>.lx-head { flex:0 0 min(260px,82vw); width:min(260px,82vw); scroll-snap-align:start; }
+}
 .lx-section .lx-subgroup { display:block; border:0; background:transparent; box-shadow:none; overflow:visible; }
 .lx-section .lx-subgroup .lx-main { display:block; }
 .lx-section .lx-subgroup .lx-panel { width:100%; margin:18px 0 0; }
@@ -11674,11 +11685,17 @@ function xrefs(u,cur){
   if(!other.length){return '';}
   return '<span class="lx-note2">Также в категории: '+other.map(function(n){return '<button type="button" class="lx-xref" data-goto="'+n+'">№'+catLabel(catByN[n])+'</button>';}).join(', ')+'</span>';
 }
+function fieldList(text,c,forms){
+  var parts=String(text).split(forms? /, | \/ / : /; /);
+  if(parts.length<2){return lexProse(text,c);}
+  return '<ul class="lx-field-list">'+parts.map(function(part){return '<li>'+lexProse(part,c)+'</li>';}).join('')+'</ul>';
+}
+function groupButton(card){return document.getElementById('lx-tg-'+pad(+card.dataset.cat));}
 function senseRow(c,s){
   var un=units[s.u];
   return '<tr><td class="lx-w" data-label="Единица"><span class="lx-wtr">('+esc(un.tr||'')+')</span>'+esc(un.w)+xrefs(s.u,c.n)+'</td>'+
   '<td data-label="Значение и часть речи"><span class="lx-pos">'+esc(s.pos)+'</span>'+lexProse(s.ru,c)+
-  '<span class="lx-gov"><b>Управление:</b> '+lexProse(s.gov,c)+'</span><span class="lx-note2">'+lexProse(s.note,c)+'</span></td>'+
+  '<div class="lx-gov"><b>Управление:</b> '+fieldList(s.gov,c,false)+'</div><span class="lx-note2">'+lexProse(s.note,c)+'</span></td>'+
   '<td data-label="Английский пример" lang="en">'+lexExample(c,s.en,s.tr,'en')+'</td>'+
   '<td data-label="Русский перевод" lang="ru">'+lexExample(c,s.en,s.tr,'ru')+'</td></tr>';
 }
@@ -11687,7 +11704,7 @@ function table(head,rows,cap){
 }
 function interRow(r,c){
   return '<tr><td data-label="Контекст"><span class="lx-ctx">'+lexProse(r.ctx,c)+'</span><span class="lx-type">'+statusMark({'А':'✓','Б':'⚠','В':'⚠','Г':'↔'}[r.t]||'•',I_TYPES[r.t]||r.t)+'</span></td>'+
-  '<td data-label="Сравниваемые формы"><span class="lx-forms">'+esc(r.forms)+'</span></td>'+
+  '<td data-label="Сравниваемые формы"><div class="lx-forms">'+fieldList(r.forms,c,true)+'</div></td>'+
   '<td data-label="Предложения">'+r.ex.map(function(e){return '<p class="lx-sen"><span class="lx-f">'+esc(e.f)+':</span>'+lexExample(c,e.en,e.ru,'en')+'</p>';}).join('')+'</td>'+
   '<td data-label="Переводы">'+r.ex.map(function(e){return '<p class="lx-tr">'+lexExample(c,e.en,e.ru,'ru')+'</p>';}).join('')+'</td>'+
   '<td data-label="Условия замены и различия"><p class="lx-kv"><b>Сохраняется:</b> '+lexProse(r.keeps.replace(/^Сохраняется:\s*/,''),c)+'</p><p class="lx-kv"><b>Меняется:</b> '+lexProse(r.changes.replace(/^Меняется:\s*/,''),c)+'</p><p class="lx-kv"><b>Перестройка:</b> '+lexProse(r.struct,c)+'</p></td></tr>';
@@ -11706,7 +11723,7 @@ function nonRow(r,c){
     }
   });
   return '<tr><td data-label="Контекст"><span class="lx-ctx">'+lexProse(r.ctx,c)+'</span><span class="lx-type">'+statusMark({'А':'⛔','Б':'⚠','В':'↔','Г':'⚠','Д':'⛔','Е':'⛔'}[r.t]||'•',N_TYPES[r.t]||r.t)+'</span></td>'+
-  '<td data-label="Сравниваемые формы"><span class="lx-forms">'+esc(r.forms)+'</span></td>'+
+  '<td data-label="Сравниваемые формы"><div class="lx-forms">'+fieldList(r.forms,c,true)+'</div></td>'+
   '<td data-label="Предложения">'+sent+'</td><td data-label="Переводы">'+tr+'</td>'+
   '<td data-label="Почему замена невозможна или меняет смысл">'+lexProse(r.why,c)+'</td></tr>';
 }
@@ -11767,7 +11784,7 @@ function setOpen(card,open){
   if(open){if(catByN[+card.dataset.cat].parent==='logic'){setFamily(true);}else{setFamily(false);}}
   if(open&&statusEl.textContent==='Все группы свёрнуты.'){statusEl.textContent='';}
   if(open){listEl.querySelectorAll('.lx-card.is-open').forEach(function(other){if(other!==card){setOpen(other,false);}});}
-  var c=catByN[+card.dataset.cat],panel=card.querySelector('.lx-panel'),btn=card.querySelector('.lx-toggle');
+  var c=catByN[+card.dataset.cat],panel=card.querySelector('.lx-panel'),btn=groupButton(card);
   if(open&&!panel.dataset.ready){panel.innerHTML=panelHtml(c);panel.dataset.ready='1';}
   panel.hidden=!open;
   btn.setAttribute('aria-expanded',open?'true':'false');
@@ -11785,6 +11802,14 @@ function setInner(card,number,open){
 }
 function cardOf(n){return document.getElementById('lx-cat-'+pad(n));}
 listEl.innerHTML=cats.filter(function(c){return !c.parent;}).map(cardHtml).join('')+logicHtml();
+var subgroupNav=document.createElement('div');subgroupNav.className='lx-subgroup-nav';subgroupNav.setAttribute('role','group');subgroupNav.setAttribute('aria-label','Подгруппы логических связей');
+var subgroupHost=listEl.querySelector('.lx-subgroups');subgroupHost.prepend(subgroupNav);
+listEl.querySelectorAll('.lx-card').forEach(function(card){
+  groupButton(card).dataset.lxCategory=card.dataset.cat;
+  if(card.classList.contains('lx-subgroup')){
+    var head=card.querySelector('.lx-head');head.classList.add('lx-subgroup-choice');head.style.setProperty('--lx-hue',catByN[+card.dataset.cat].hue);head.dataset.lxCategory=card.dataset.cat;subgroupNav.appendChild(head);
+  }
+});
 if(cats.length){setOpen(cardOf(cats[0].n),true);}
 listEl.addEventListener('click',function(e){
   var family=e.target.closest('.lx-family-toggle');
@@ -11793,7 +11818,7 @@ listEl.addEventListener('click',function(e){
   if(inner){setInner(inner.closest('.lx-card'),+inner.dataset.lxTab,inner.getAttribute('aria-expanded')!=='true');return;}
   var t=e.target.closest('.lx-toggle');
   if(t){
-    var card=t.closest('.lx-card'),open=t.getAttribute('aria-expanded')!=='true',anchorY=t.getBoundingClientRect().top;
+    var card=cardOf(+t.dataset.lxCategory),open=t.getAttribute('aria-expanded')!=='true',anchorY=t.getBoundingClientRect().top;
     setOpen(card,open);
     var delta=t.getBoundingClientRect().top-anchorY;
     if(Math.abs(delta)>1){window.scrollBy({top:delta,left:0,behavior:'instant'});}
@@ -11802,7 +11827,7 @@ listEl.addEventListener('click',function(e){
   var say=e.target.closest('.lx-say');
   if(say){AUDIO.play(say.dataset.say,say);return;}
   var g=e.target.closest('.lx-xref');
-  if(g){var cd=cardOf(+g.dataset.goto);if(cd){setOpen(cd,true);cd.querySelector('.lx-toggle').scrollIntoView({block:'start',behavior:'smooth'});}}
+  if(g){var cd=cardOf(+g.dataset.goto);if(cd){setOpen(cd,true);groupButton(cd).scrollIntoView({block:'start',behavior:'smooth'});}}
 });
 listEl.addEventListener('keydown',function(e){
   var inner=e.target.closest('[data-lx-tab]'),outer=e.target.closest('.lx-toggle'),buttons,index,next;
@@ -11823,8 +11848,8 @@ document.addEventListener('lx:open',function(e){
   setOpen(cd,true);
   if(+d.block>=1&&+d.block<=5){setInner(cd,+d.block,true);}
   var t=d.block?document.getElementById('lx-b'+d.block+'-'+pad(+d.cat)):null;
-  (t||cd.querySelector('.lx-toggle')).scrollIntoView({block:'start',behavior:'smooth'});
-  var b=cd.querySelector('.lx-toggle');if(b){b.focus({preventScroll:true});}
+  (t||groupButton(cd)).scrollIntoView({block:'start',behavior:'smooth'});
+  var b=groupButton(cd);if(b){b.focus({preventScroll:true});}
 });
 $('#lxCollapse').addEventListener('click',function(){
   setFamily(false);
@@ -11862,6 +11887,7 @@ function applyFilter(){
     }
     if(!ok&&card.classList.contains('is-open')){setOpen(card,false);}
     card.hidden=!ok;
+    var choice=subgroupNav.querySelector('[data-lx-category="'+c.n+'"]');if(choice){choice.hidden=!ok;}
     var hit=card.querySelector('.lx-hit');
     if(ok&&bodyOnly){hit.hidden=false;hit.textContent=tokens.every(function(t){return ix.story.indexOf(t)>-1;})?'Совпадение найдено в тексте или выводах группы. Раскройте категорию и выберите сравнение.':'Совпадение найдено внутри разбора карточки. Раскройте категорию.';}else{hit.hidden=true;hit.textContent='';}
     if(ok){shown++;}
