@@ -1586,15 +1586,15 @@ nav.tabs button[data-tab].quiz-done::after { content: " ✓"; color: var(--color
 .lx-section .lx-card[hidden] { display:none; }
 .lx-section .lx-head { width:100%; max-width:none; min-width:0; order:0; }
 .lx-section .lx-group-heading { height:100%; }
-.lx-section .lx-toggle { width:100%; height:100%; min-height:0; gap:7px; padding:8px 10px; border:1px solid var(--lx-line); border-left:4px solid var(--lx-bar); border-radius:8px; background:transparent; align-items:flex-start; box-shadow:none; }
-.lx-section .lx-toggle[aria-expanded="false"] { box-shadow:var(--shadow-sm); box-shadow:0 2px 6px color-mix(in srgb,var(--color-text) 12%,transparent),0 0 8px color-mix(in srgb,var(--lx-bar) 10%,transparent); }
+.lx-section .lx-toggle { display:grid; grid-template-columns:20px minmax(0,1fr) 20px; width:100%; height:100%; min-height:0; gap:7px; padding:8px 10px; border:1px solid var(--lx-line); border-left:4px solid var(--lx-bar); border-radius:8px; background:transparent; align-items:flex-start; box-shadow:none; }
+.lx-section .lx-toggle[aria-expanded="false"] { box-shadow:var(--shadow-sm); box-shadow:0 4px 8px rgb(0 0 0 / 26%),0 0 0 1px color-mix(in srgb,var(--color-text) 15%,transparent),0 0 10px color-mix(in srgb,var(--lx-bar) 22%,transparent); }
 .lx-section .lx-toggle[aria-expanded="true"] { border-color:var(--lx-c); border-left-color:var(--lx-bar); background:var(--lx-soft); box-shadow:inset 0 0 0 1px var(--lx-line); }
 .lx-section .lx-toggle .lx-num { width:auto; height:auto; border:0; background:transparent; font-size:12px; line-height:1.4; }
-.lx-section .lx-toggle .lx-title { font-size:14px; font-weight:750; line-height:1.35; overflow-wrap:anywhere; }
+.lx-section .lx-toggle .lx-title { text-align:center; margin-bottom:9px; font-size:14px; font-weight:750; line-height:1.35; overflow-wrap:anywhere; }
 .lx-section .lx-toggle .lx-summary { display:flex; flex-wrap:wrap; justify-content:space-evenly; gap:3px 8px; font-size:12px; font-weight:500; line-height:1.4; overflow-wrap:anywhere; }
 .lx-section .lx-summary-word { display:block; max-width:100%; }
-.lx-section .lx-toggle .lx-tg-icon { width:6px; height:6px; margin:4px 1px 0 3px; }
-.lx-section .lx-panel { grid-column:1 / -1; order:1; margin-top:12px; flex:0 0 100%; width:100%; min-width:0; box-sizing:border-box; border:1px solid var(--lx-line); border-left:4px solid var(--lx-bar); border-radius:8px; background:var(--color-surface); scroll-margin-top:90px; }
+.lx-section .lx-toggle .lx-tg-icon { justify-self:end; width:6px; height:6px; margin:4px 1px 0 3px; }
+.lx-section .lx-panel { grid-column:1 / -1; order:1; margin-top:24px; flex:0 0 100%; width:100%; min-width:0; box-sizing:border-box; border:1px solid var(--lx-line); border-left:4px solid var(--lx-bar); border-radius:8px; background:var(--color-surface); scroll-margin-top:90px; }
 .lx-section .lx-hit { grid-column:1 / -1; order:2; }
 /* Only the group selector rows use the wider area; lesson panels keep their width. */
 @media (min-width:1200px) {
