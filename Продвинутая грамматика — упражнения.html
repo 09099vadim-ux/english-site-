@@ -1594,7 +1594,7 @@ nav.tabs button[data-tab].quiz-done::after { content: " ✓"; color: var(--color
 .lx-section .lx-toggle .lx-summary { display:flex; flex-wrap:wrap; justify-content:space-evenly; gap:3px 8px; font-size:12px; font-weight:500; line-height:1.4; overflow-wrap:anywhere; }
 .lx-section .lx-summary-word { display:block; max-width:100%; }
 .lx-section .lx-toggle .lx-tg-icon { justify-self:end; width:6px; height:6px; margin:4px 1px 0 3px; }
-.lx-section .lx-panel { grid-column:1 / -1; order:1; margin-top:24px; flex:0 0 100%; width:100%; min-width:0; box-sizing:border-box; border:1px solid var(--lx-line); border-left:4px solid var(--lx-bar); border-radius:8px; background:var(--color-surface); scroll-margin-top:90px; }
+.lx-section .lx-panel { grid-column:1 / -1; order:1; margin-top:36px; flex:0 0 100%; width:100%; min-width:0; box-sizing:border-box; border:1px solid var(--lx-line); border-left:4px solid var(--lx-bar); border-radius:8px; background:var(--color-surface); scroll-margin-top:90px; }
 .lx-section .lx-hit { grid-column:1 / -1; order:2; }
 /* Only the group selector rows use the wider area; lesson panels keep their width. */
 @media (min-width:1200px) {
@@ -1603,6 +1603,40 @@ nav.tabs button[data-tab].quiz-done::after { content: " ✓"; color: var(--color
 }
 @media (max-width:899px) { .lx-section .lx-list { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media (max-width:539px) { .lx-section .lx-list { grid-template-columns:minmax(0,1fr); } }
+
+/* Quiet inactive selectors and a restrained visual hierarchy inside each lesson. */
+.lx-section .lx-toggle { position:relative; isolation:isolate; }
+.lx-section .lx-toggle[aria-expanded="false"]::after { content:""; position:absolute; inset:0; border-radius:inherit; background:rgb(0 0 0 / 20%); pointer-events:none; z-index:1; }
+.lx-section .lx-toggle:focus-visible { outline-offset:3px; }
+.lx-section .lx-general .lx-unit { border:0; border-radius:8px; padding:6px 10px; gap:8px; }
+.lx-section .lx-general .lx-say { border:0; background:transparent; }
+.lx-section .lx-inner-tabs { border:0; border-bottom:1px solid var(--color-divider); border-radius:0; padding:0 0 8px; gap:6px; margin-bottom:20px; background:transparent; }
+.lx-section .lx-inner-toggle { border:1px solid transparent; border-radius:8px; padding:12px 8px; background:transparent; color:var(--color-text-muted); font-weight:600; line-height:1.45; }
+.lx-section .lx-inner-toggle:hover { background:var(--lx-soft); color:var(--color-text); }
+.lx-section .lx-inner-toggle[aria-selected="true"] { border-color:var(--lx-line); background:var(--lx-soft); color:var(--lx-c); box-shadow:inset 0 -2px 0 var(--lx-bar); }
+.lx-section .lx-inner-panel { line-height:1.6; }
+.lx-section .lx-inner-panel .lx-bh { margin:0 0 10px; font-size:18px; line-height:1.4; }
+.lx-section .lx-bsub { line-height:1.65; margin-bottom:18px; }
+.lx-section .lx-table th, .lx-section .lx-table td { line-height:1.6; border-color:var(--color-divider); }
+.lx-section .lx-table thead th { text-transform:none; letter-spacing:normal; font-weight:650; background:var(--lx-soft); }
+.lx-section .lx-type { display:block; width:fit-content; margin-top:10px; border:0; border-radius:5px; padding:4px 7px; font-weight:500; line-height:1.5; }
+.lx-section .lx-tag { display:table; white-space:normal; margin:0 0 7px; padding:2px 7px; border:0; border-radius:4px; background:var(--lx-soft); font-weight:600; line-height:1.5; }
+.lx-section .lx-tag.caution { color:var(--color-text-muted); }
+.lx-section .lx-sen { margin-bottom:16px; }
+.lx-section .lx-sen.is-bad, .lx-section .lx-sen.is-diff, .lx-section .lx-sen.is-caution { border-left-width:2px; border-left-style:solid; padding-left:10px; }
+.lx-section .lx-more { margin:16px 0; }
+.lx-section .lx-more>summary { border-bottom:1px solid var(--color-divider); padding:12px 0; font-weight:600; }
+.lx-section .lx-more[open]>summary { margin-bottom:14px; }
+.lx-section .lx-cmp>li { border:1px solid var(--color-divider); border-left:2px solid var(--lx-line); padding:18px; border-radius:10px; }
+.lx-section .lx-cmp .lx-ce { margin-top:10px; }
+.lx-section .lx-sit, .lx-section .lx-rel, .lx-section .lx-story, .lx-section .lx-usage-guide { border:0; border-radius:10px; }
+.lx-section .lx-story { padding:20px; background:var(--lx-soft); }
+.lx-section .lx-rel, .lx-section .lx-sit, .lx-section .lx-usage-guide { padding:16px 18px; }
+@media (min-width:721px) { .lx-section .lx-twrap { border-color:var(--color-divider); border-radius:10px; } }
+@media (max-width:720px) {
+ .lx-section .lx-table tr { border-color:var(--color-divider); border-radius:10px; }
+ .lx-section .lx-table td::before { text-transform:none; letter-spacing:normal; font-weight:600; }
+}
 
 /* Lexicon content: exact bilingual spans, cohesive reading and distinct rule types. */
 .lx-section .lx-keyword { color:var(--lx-c); font-weight:750; background:transparent; border:0; padding:0; text-decoration:none; }
@@ -11623,7 +11657,7 @@ function table(head,rows,cap){
   return '<div class="lx-twrap" tabindex="0" role="region" aria-label="'+esc(cap)+'"><table class="lx-table"><thead><tr>'+head.map(function(h){return '<th scope="col">'+h+'</th>';}).join('')+'</tr></thead><tbody>'+rows.join('')+'</tbody></table></div>';
 }
 function interRow(r,c){
-  return '<tr><td data-label="Контекст"><span class="lx-ctx">'+lexProse(r.ctx,c)+'</span><span class="lx-type">'+({'А':'✅ ','Б':'⚠️ ','В':'⚠️ ','Г':'🔄 '}[r.t]||'')+esc(I_TYPES[r.t]||r.t)+'</span></td>'+
+  return '<tr><td data-label="Контекст"><span class="lx-ctx">'+lexProse(r.ctx,c)+'</span><span class="lx-type">'+esc(I_TYPES[r.t]||r.t)+'</span></td>'+
   '<td data-label="Сравниваемые формы"><span class="lx-forms">'+esc(r.forms)+'</span></td>'+
   '<td data-label="Предложения">'+r.ex.map(function(e){return '<p class="lx-sen"><span class="lx-f">'+esc(e.f)+':</span>'+lexExample(c,e.en,e.ru,'en')+'</p>';}).join('')+'</td>'+
   '<td data-label="Переводы">'+r.ex.map(function(e){return '<p class="lx-tr">'+lexExample(c,e.en,e.ru,'ru')+'</p>';}).join('')+'</td>'+
@@ -11634,15 +11668,15 @@ function nonRow(r,c){
   r.items.forEach(function(e){
     if(e.k==='bad'){
       var diff=e.lab==='Другой смысл';
-      var tag=diff?'<span class="lx-tag diff">⚠️ Другой смысл (фраза корректна)</span>':(e.lab==='Неправильный вариант'?'<span class="lx-tag wrong">❌ Неправильный вариант</span>':'<span class="lx-tag caution">⚠️ Неестественный вариант</span>');
+      var tag=diff?'<span class="lx-tag diff">Другой смысл (фраза корректна)</span>':(e.lab==='Неправильный вариант'?'<span class="lx-tag wrong">Неправильный вариант</span>':'<span class="lx-tag caution">Неестественный вариант</span>');
       sent+='<p class="lx-sen '+(diff?'is-diff':e.lab==='Неправильный вариант'?'is-bad':'is-caution')+'">'+tag+'<span class="lx-f">'+esc(e.f)+':</span>'+lexExample(c,e.en,e.ru,'en')+'</p>';
       tr+='<p class="lx-tr">'+lexExample(c,e.en,e.ru,'ru')+'</p>';
     }else{
-      sent+='<p class="lx-sen"><span class="lx-tag ok">✅ Корректно'+(e.k==='alt'?' (другая форма)':'')+'</span><span class="lx-f">'+esc(e.f)+':</span>'+lexExample(c,e.en,e.ru,'en')+'</p>';
+      sent+='<p class="lx-sen"><span class="lx-tag ok">Корректно'+(e.k==='alt'?' (другая форма)':'')+'</span><span class="lx-f">'+esc(e.f)+':</span>'+lexExample(c,e.en,e.ru,'en')+'</p>';
       tr+='<p class="lx-tr">'+lexExample(c,e.en,e.ru,'ru')+'</p>';
     }
   });
-  return '<tr><td data-label="Контекст"><span class="lx-ctx">'+lexProse(r.ctx,c)+'</span><span class="lx-type">'+({'А':'❌ ','Б':'⚠️ ','В':'⚠️ ','Г':'⚠️ ','Д':'❌ ','Е':'❌ '}[r.t]||'')+esc(N_TYPES[r.t]||r.t)+'</span></td>'+
+  return '<tr><td data-label="Контекст"><span class="lx-ctx">'+lexProse(r.ctx,c)+'</span><span class="lx-type">'+esc(N_TYPES[r.t]||r.t)+'</span></td>'+
   '<td data-label="Сравниваемые формы"><span class="lx-forms">'+esc(r.forms)+'</span></td>'+
   '<td data-label="Предложения">'+sent+'</td><td data-label="Переводы">'+tr+'</td>'+
   '<td data-label="Почему замена невозможна или меняет смысл">'+lexProse(r.why,c)+'</td></tr>';
