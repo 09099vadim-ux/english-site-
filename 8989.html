@@ -2517,11 +2517,11 @@ h4.pw-blk-h.pw-blk-h-tg { display: flex; align-items: center; justify-content: s
 /* The table itself follows its frame; narrow screens use labeled sense blocks. */
 #pwRoot .pw-main-table [data-label="Часть речи"] { font-size:.88rem; }
 #pwRoot .pw-nuance-wrong, #pwRoot .pw-nuance-right { color:var(--color-text); text-decoration:none; }
-#pwRoot .pw-group-table { width:73.6%; }
+#pwRoot .pw-group-table { width:80.96%; }
 #pwRoot .pw-group-comparisons { width:64%; max-width:921.6px; }
 #pwRoot .pw-subsection table.pw-main-table, #pwRoot .pw-subsection #pwTable.pw-main-table { min-width:0; width:100%; }
 #pwRoot .pw-main-table th, #pwRoot .pw-main-table td { min-width:0; }
-@media (max-width:1200px) { #pwRoot .pw-group-table { width:92%; } #pwRoot .pw-group-comparisons { width:80%; } }
+@media (max-width:1200px) { #pwRoot .pw-group-table { width:100%; } #pwRoot .pw-group-comparisons { width:80%; } }
 @media (max-width:1000px) { #pwRoot .pw-group-table, #pwRoot .pw-group-comparisons { width:100%; } }
 @media (max-width:700px) {
  #pwRoot .pw-subsection table.pw-main-table, #pwRoot .pw-subsection #pwTable.pw-main-table, #pwRoot .pw-main-table tbody { display:block; }
@@ -2563,6 +2563,11 @@ h4.pw-blk-h.pw-blk-h-tg { display: flex; align-items: center; justify-content: s
 #pwRoot .pw-rule-icon { flex:0 0 auto; font-size:.9em; line-height:1; }
 #pwRoot .pw-replacement-body { min-width:0; }
 #pwRoot .pw-replacement-body > strong { font-weight:700; }
+
+/* Keep whole study words intact while the entire table shares the extra width. */
+#pwRoot .pw-subsection table.pw-main-table, #pwRoot .pw-subsection #pwTable.pw-main-table { table-layout:auto; }
+#pwRoot .pw-main-table .pw-word-label, #pwRoot .pw-main-table [data-label="Вариант слова"] .pw-context-word { white-space:nowrap; overflow-wrap:normal; word-break:normal; }
+@media (max-width:700px) { #pwRoot .pw-subsection #pwTable.pw-main-table tbody th { width:auto; min-width:0; } }
 </style>
 <section class="section active" data-section="similar" data-tint="blue" role="tabpanel">
     <h3 class="s-title">Похожие слова: through, thorough, though, thought, tough и другие</h3>
