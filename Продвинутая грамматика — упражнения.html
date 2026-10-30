@@ -1581,19 +1581,27 @@ nav.tabs button[data-tab].quiz-done::after { content: " ✓"; color: var(--color
 
 /* Outer group navigation: all headers precede the single expanded panel visually.
    Keep article ancestry and IDs for existing inner tabs, search and trainer links. */
-.lx-section .lx-list { display:flex; flex-direction:row; flex-wrap:wrap; gap:8px; align-items:stretch; }
+.lx-section .lx-list { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; align-items:stretch; }
 .lx-section .lx-card, .lx-section .lx-main { display:contents; }
 .lx-section .lx-card[hidden] { display:none; }
-.lx-section .lx-head { flex:0 1 auto; width:max-content; max-width:min(420px,100%); min-width:0; order:0; }
+.lx-section .lx-head { width:100%; max-width:none; min-width:0; order:0; }
 .lx-section .lx-group-heading { height:100%; }
 .lx-section .lx-toggle { width:100%; height:100%; min-height:0; gap:7px; padding:8px 10px; border:1px solid var(--lx-line); border-left:4px solid var(--lx-bar); border-radius:8px; background:transparent; align-items:flex-start; box-shadow:none; }
 .lx-section .lx-toggle[aria-expanded="true"] { border-color:var(--lx-c); border-left-color:var(--lx-bar); background:var(--lx-soft); box-shadow:inset 0 0 0 1px var(--lx-line); }
 .lx-section .lx-toggle .lx-num { width:auto; height:auto; border:0; background:transparent; font-size:12px; line-height:1.4; }
 .lx-section .lx-toggle .lx-title { font-size:14px; font-weight:750; line-height:1.35; overflow-wrap:anywhere; }
-.lx-section .lx-toggle .lx-summary { font-size:12px; font-weight:500; line-height:1.4; overflow-wrap:anywhere; }
+.lx-section .lx-toggle .lx-summary { display:flex; flex-wrap:wrap; justify-content:space-evenly; gap:3px 8px; font-size:12px; font-weight:500; line-height:1.4; overflow-wrap:anywhere; }
+.lx-section .lx-summary-word { display:block; max-width:100%; }
 .lx-section .lx-toggle .lx-tg-icon { width:6px; height:6px; margin:4px 1px 0 3px; }
-.lx-section .lx-panel { order:1; flex:0 0 100%; width:100%; min-width:0; box-sizing:border-box; border:1px solid var(--lx-line); border-left:4px solid var(--lx-bar); border-radius:8px; background:var(--color-surface); scroll-margin-top:90px; }
-.lx-section .lx-hit { order:2; flex:0 0 100%; }
+.lx-section .lx-panel { grid-column:1 / -1; order:1; flex:0 0 100%; width:100%; min-width:0; box-sizing:border-box; border:1px solid var(--lx-line); border-left:4px solid var(--lx-bar); border-radius:8px; background:var(--color-surface); scroll-margin-top:90px; }
+.lx-section .lx-hit { grid-column:1 / -1; order:2; }
+/* Only the group selector rows use the wider area; lesson panels keep their width. */
+@media (min-width:1200px) {
+ .lx-section .lx-list { width:calc(100% + 160px); margin-left:-80px; grid-template-columns:repeat(4,minmax(0,1fr)); }
+ .lx-section .lx-panel, .lx-section .lx-hit { width:calc(100% - 160px); margin-left:auto; margin-right:auto; }
+}
+@media (max-width:899px) { .lx-section .lx-list { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+@media (max-width:539px) { .lx-section .lx-list { grid-template-columns:minmax(0,1fr); } }
 
 /* Lexicon content: exact bilingual spans, cohesive reading and distinct rule types. */
 .lx-section .lx-keyword { color:var(--lx-c); font-weight:750; background:transparent; border:0; padding:0; text-decoration:none; }
@@ -11587,11 +11595,11 @@ function unitChip(u){
   '<button type="button" class="lx-say" data-say="'+esc(u)+'" aria-pressed="false" aria-label="Прослушать: '+esc(un.w)+'">'+ICON+'</button></li>';
 }
 function cardHtml(c){
-  var nn=pad(c.n),summary=c.units.map(function(u){return units[u].w;}).join(' · ');
+  var nn=pad(c.n),summary=c.units.map(function(u){return '<span class="lx-summary-word">'+esc(units[u].w)+'</span>';}).join(' ');
   return '<article class="lx-card" id="lx-cat-'+nn+'" data-cat="'+c.n+'" style="--lx-hue:'+c.hue+'">'+
   '<div class="lx-main"><header class="lx-head"><h4 class="lx-group-heading">'+
     '<button type="button" class="lx-toggle" id="lx-tg-'+nn+'" aria-expanded="false" aria-controls="lx-panel-'+nn+'" aria-label="Развернуть категорию '+c.n+': '+esc(c.title)+'">'+
-      '<span class="lx-num" aria-hidden="true">'+nn+'</span><span class="lx-summary-copy"><span class="lx-title">'+esc(c.title)+'</span><span class="lx-summary">'+esc(summary)+'</span></span>'+
+      '<span class="lx-num" aria-hidden="true">'+nn+'</span><span class="lx-summary-copy"><span class="lx-title">'+esc(c.title)+'</span><span class="lx-summary">'+summary+'</span></span>'+
       '<span class="lx-tg-icon" aria-hidden="true"></span><span class="lx-tg-txt" aria-hidden="true">Развернуть</span>'+
     '</button></h4></header><p class="lx-hit" hidden></p>'+
     '<div class="lx-panel" id="lx-panel-'+nn+'" data-ready="1" role="region" aria-labelledby="lx-tg-'+nn+'" hidden>'+panelHtml(c)+'</div>'+
