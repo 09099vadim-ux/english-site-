@@ -1638,6 +1638,12 @@ nav.tabs button[data-tab].quiz-done::after { content: " ✓"; color: var(--color
  .lx-section .lx-table td::before { text-transform:none; letter-spacing:normal; font-weight:600; }
 }
 
+.lx-section .lx-toggle .lx-num { flex-direction:column; gap:5px; }
+.lx-section .lx-group-icon { display:block; font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif; font-size:18px; line-height:1.2; }
+.lx-section .lx-type, .lx-section .lx-tag { display:grid; grid-template-columns:18px minmax(0,1fr); align-items:start; column-gap:6px; width:fit-content; max-width:100%; box-sizing:border-box; }
+.lx-section .lx-status-icon { display:block; width:18px; text-align:center; font-family:system-ui,sans-serif; font-size:14px; font-weight:700; line-height:1.5; }
+.lx-section .lx-status-text { min-width:0; }
+
 /* Lexicon content: exact bilingual spans, cohesive reading and distinct rule types. */
 .lx-section .lx-keyword { color:var(--lx-c); font-weight:750; background:transparent; border:0; padding:0; text-decoration:none; }
 .lx-section .lx-story { padding:var(--space-4); border:1px solid var(--lx-line); border-radius:var(--radius-md); background:var(--color-surface); }
@@ -11629,12 +11635,14 @@ function unitChip(u){
   return '<li class="lx-unit"><span class="lx-uw">'+esc(un.w)+'</span><span class="lx-tr">'+esc(un.tr||'')+'</span><span class="lx-kind">'+esc(kinds[un.k]||'')+'</span>'+
   '<button type="button" class="lx-say" data-say="'+esc(u)+'" aria-pressed="false" aria-label="Прослушать: '+esc(un.w)+'">'+ICON+'</button></li>';
 }
+var GROUP_ICONS=['🛠️','💥','📣','🛑','🤔','💭','💡','🧠','👁️','💬','🧘','🚶','😲','⏳','💵','✋','🔑','🧳','🙏','📝'];
+function statusMark(icon,text){return '<span class="lx-status-icon" aria-hidden="true">'+esc(icon)+'</span><span class="lx-status-text">'+esc(text)+'</span>';}
 function cardHtml(c){
   var nn=pad(c.n),summary=c.units.map(function(u){return '<span class="lx-summary-word">'+esc(units[u].w)+'</span>';}).join(' ');
   return '<article class="lx-card" id="lx-cat-'+nn+'" data-cat="'+c.n+'" style="--lx-hue:'+c.hue+'">'+
   '<div class="lx-main"><header class="lx-head"><h4 class="lx-group-heading">'+
     '<button type="button" class="lx-toggle" id="lx-tg-'+nn+'" aria-expanded="false" aria-controls="lx-panel-'+nn+'" aria-label="Развернуть категорию '+c.n+': '+esc(c.title)+'">'+
-      '<span class="lx-num" aria-hidden="true">'+nn+'</span><span class="lx-summary-copy"><span class="lx-title">'+esc(c.title)+'</span><span class="lx-summary">'+summary+'</span></span>'+
+      '<span class="lx-num" aria-hidden="true">'+nn+'<span class="lx-group-icon">'+GROUP_ICONS[c.n-1]+'</span></span><span class="lx-summary-copy"><span class="lx-title">'+esc(c.title)+'</span><span class="lx-summary">'+summary+'</span></span>'+
       '<span class="lx-tg-icon" aria-hidden="true"></span><span class="lx-tg-txt" aria-hidden="true">Развернуть</span>'+
     '</button></h4></header><p class="lx-hit" hidden></p>'+
     '<div class="lx-panel" id="lx-panel-'+nn+'" data-ready="1" role="region" aria-labelledby="lx-tg-'+nn+'" hidden>'+panelHtml(c)+'</div>'+
@@ -11657,7 +11665,7 @@ function table(head,rows,cap){
   return '<div class="lx-twrap" tabindex="0" role="region" aria-label="'+esc(cap)+'"><table class="lx-table"><thead><tr>'+head.map(function(h){return '<th scope="col">'+h+'</th>';}).join('')+'</tr></thead><tbody>'+rows.join('')+'</tbody></table></div>';
 }
 function interRow(r,c){
-  return '<tr><td data-label="Контекст"><span class="lx-ctx">'+lexProse(r.ctx,c)+'</span><span class="lx-type">'+esc(I_TYPES[r.t]||r.t)+'</span></td>'+
+  return '<tr><td data-label="Контекст"><span class="lx-ctx">'+lexProse(r.ctx,c)+'</span><span class="lx-type">'+statusMark({'А':'✓','Б':'⚠','В':'⚠','Г':'↔'}[r.t]||'•',I_TYPES[r.t]||r.t)+'</span></td>'+
   '<td data-label="Сравниваемые формы"><span class="lx-forms">'+esc(r.forms)+'</span></td>'+
   '<td data-label="Предложения">'+r.ex.map(function(e){return '<p class="lx-sen"><span class="lx-f">'+esc(e.f)+':</span>'+lexExample(c,e.en,e.ru,'en')+'</p>';}).join('')+'</td>'+
   '<td data-label="Переводы">'+r.ex.map(function(e){return '<p class="lx-tr">'+lexExample(c,e.en,e.ru,'ru')+'</p>';}).join('')+'</td>'+
@@ -11668,15 +11676,15 @@ function nonRow(r,c){
   r.items.forEach(function(e){
     if(e.k==='bad'){
       var diff=e.lab==='Другой смысл';
-      var tag=diff?'<span class="lx-tag diff">Другой смысл (фраза корректна)</span>':(e.lab==='Неправильный вариант'?'<span class="lx-tag wrong">Неправильный вариант</span>':'<span class="lx-tag caution">Неестественный вариант</span>');
+      var tag=diff?'<span class="lx-tag diff">'+statusMark('↔','Другой смысл (фраза корректна)')+'</span>':(e.lab==='Неправильный вариант'?'<span class="lx-tag wrong">'+statusMark('⛔','Неправильный вариант')+'</span>':'<span class="lx-tag caution">'+statusMark('⚠','Неестественный вариант')+'</span>');
       sent+='<p class="lx-sen '+(diff?'is-diff':e.lab==='Неправильный вариант'?'is-bad':'is-caution')+'">'+tag+'<span class="lx-f">'+esc(e.f)+':</span>'+lexExample(c,e.en,e.ru,'en')+'</p>';
       tr+='<p class="lx-tr">'+lexExample(c,e.en,e.ru,'ru')+'</p>';
     }else{
-      sent+='<p class="lx-sen"><span class="lx-tag ok">Корректно'+(e.k==='alt'?' (другая форма)':'')+'</span><span class="lx-f">'+esc(e.f)+':</span>'+lexExample(c,e.en,e.ru,'en')+'</p>';
+      sent+='<p class="lx-sen"><span class="lx-tag ok">'+statusMark('✓','Корректно'+(e.k==='alt'?' (другая форма)':''))+'</span><span class="lx-f">'+esc(e.f)+':</span>'+lexExample(c,e.en,e.ru,'en')+'</p>';
       tr+='<p class="lx-tr">'+lexExample(c,e.en,e.ru,'ru')+'</p>';
     }
   });
-  return '<tr><td data-label="Контекст"><span class="lx-ctx">'+lexProse(r.ctx,c)+'</span><span class="lx-type">'+esc(N_TYPES[r.t]||r.t)+'</span></td>'+
+  return '<tr><td data-label="Контекст"><span class="lx-ctx">'+lexProse(r.ctx,c)+'</span><span class="lx-type">'+statusMark({'А':'⛔','Б':'⚠','В':'↔','Г':'⚠','Д':'⛔','Е':'⛔'}[r.t]||'•',N_TYPES[r.t]||r.t)+'</span></td>'+
   '<td data-label="Сравниваемые формы"><span class="lx-forms">'+esc(r.forms)+'</span></td>'+
   '<td data-label="Предложения">'+sent+'</td><td data-label="Переводы">'+tr+'</td>'+
   '<td data-label="Почему замена невозможна или меняет смысл">'+lexProse(r.why,c)+'</td></tr>';
