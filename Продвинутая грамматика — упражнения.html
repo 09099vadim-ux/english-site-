@@ -1670,6 +1670,32 @@ nav.tabs button[data-tab].quiz-done::after { content: " ✓"; color: var(--color
 @media (min-width:1200px) { .lx-section .lx-family-panel { width:calc(100% - 160px); margin-left:auto; margin-right:auto; } }
 @media (max-width:539px) { .lx-section .lx-family-panel { padding:12px; } .lx-section .lx-general .lx-unit { flex-wrap:wrap; } .lx-section .lx-general .lx-tr { min-width:0; overflow-wrap:anywhere; } }
 
+.lx-section .lx-cmp>li { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:8px 18px; }
+.lx-section .lx-cmp .lx-cw, .lx-section .lx-cmp .lx-cd, .lx-section .lx-cmp .lx-mnem { grid-column:1 / -1; }
+.lx-section .lx-cmp .lx-ce, .lx-section .lx-cmp .lx-cr { margin:0; align-self:start; }
+@media (max-width:720px) { .lx-section .lx-cmp>li { grid-template-columns:minmax(0,1fr); } }
+
+/* Sentence and its translation always occupy the same visual row. */
+.lx-section .lx-example-pair { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:6px 16px; padding:0 0 14px; margin:0 0 14px; border-bottom:1px solid var(--color-divider); }
+.lx-section .lx-example-pair:last-child { margin-bottom:0; padding-bottom:0; border-bottom:0; }
+.lx-section .lx-pair-label { grid-column:1 / -1; min-width:0; }
+.lx-section .lx-pair-label .lx-f { display:block; margin:0; }
+.lx-section .lx-example-pair .lx-sen, .lx-section .lx-example-pair .lx-tr { min-width:0; margin:0; align-self:start; line-height:1.6; overflow-wrap:anywhere; }
+.lx-section .lx-example-pair.is-bad { border-left:2px solid var(--color-error); padding-left:10px; }
+.lx-section .lx-example-pair.is-diff, .lx-section .lx-example-pair.is-caution { border-left:2px solid var(--color-text-muted); padding-left:10px; }
+.lx-section .lx-semantic-legend { margin:14px 0; padding:12px 14px; border:1px solid var(--color-divider); border-radius:8px; font-size:var(--text-xs); line-height:1.6; }
+.lx-section .lx-semantic-legend p { margin:0 0 8px; color:var(--color-text-muted); }
+.lx-section .lx-semantic-legend p:last-child { margin-bottom:0; }
+.lx-section .lx-semantic-legend ul { display:flex; flex-wrap:wrap; gap:8px 14px; list-style:none; margin:0 0 8px; padding:0; }
+.lx-section .lx-semantic-legend li { display:flex; gap:7px; align-items:baseline; color:var(--lx-c); font-weight:600; }
+.lx-section .lx-color-dot { display:inline-block; flex:none; width:9px; height:9px; border-radius:50%; background:var(--lx-c); }
+.lx-section .lx-summary-word[style] { color:var(--lx-c); }
+@media (max-width:720px) {
+ .lx-section .lx-comparison-table colgroup { display:none; }
+ .lx-section .lx-example-pair { grid-template-columns:minmax(0,1fr); gap:8px; }
+ .lx-section .lx-example-pair .lx-tr { margin-top:4px; }
+}
+
 /* Lexicon content: exact bilingual spans, cohesive reading and distinct rule types. */
 .lx-section .lx-keyword { color:var(--lx-c); font-weight:750; background:transparent; border:0; padding:0; text-decoration:none; }
 .lx-section .lx-story { padding:var(--space-4); border:1px solid var(--lx-line); border-radius:var(--radius-md); background:var(--color-surface); }
@@ -11624,53 +11650,71 @@ Object.keys(proseTerms).forEach(function(n){
   var terms=proseTerms[n].filter(function(w,i,a){return w&&a.indexOf(w)===i;}).sort(function(a,b){return b.length-a.length;});
   proseTerms[n]=new RegExp(terms.map(function(w){return w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace(/ /g,'\\s+');}).join('|'),'gi');
 });
-function lexRanges(text,ranges){
+var SEMANTIC_GROUPS={
+  22:[{h:205,label:'Уступка: предлог + именная группа',ids:['despite','in-spite-of','notwithstanding','for-all']},{h:285,label:'Независимость от условия',ids:['regardless-of']},{h:65,label:'Уступка: союз + предложение',ids:['although','though','even-though']}],
+  23:[{h:155,label:'Добавление довода или информации',ids:['plus','besides','on-top-of-that']},{h:65,label:'Оговорка и уточнение',ids:['mind-you']},{h:285,label:'Усиление характеристики',ids:['one-at-that']}],
+  24:[{h:205,label:'Причина: предлог + именная группа',ids:['because-of','owing-to','due-to']},{h:285,label:'Причастие / пассивная конструкция',ids:['caused-by']},{h:155,label:'Следствие → причина / источник',ids:['result-from','stem-from']},{h:65,label:'Причина → следствие',ids:['result-in']}]
+};
+function semanticGroup(c,u){return (SEMANTIC_GROUPS[c.n]||[]).filter(function(g){return g.ids.indexOf(u)>-1;})[0];}
+function semanticStyle(c,u){
+ var g=semanticGroup(c,u);return g?' style="--lx-hue:'+g.h+';--lx-c:oklch(var(--lx-L) var(--lx-C) '+g.h+');--lx-soft:color-mix(in srgb,hsl('+g.h+' 70% 50%) 9%,var(--color-surface));--lx-line:color-mix(in srgb,hsl('+g.h+' 70% 50%) 32%,var(--color-border))"':'';
+}
+function semanticTermStyle(c,text){
+ var term=String(text).toLowerCase().replace(/^be /,'');
+ var u=c.units.filter(function(id){return units[id].w.toLowerCase()===term;})[0];
+ return u?semanticStyle(c,u):'';
+}
+function semanticLegend(c){
+ var groups=SEMANTIC_GROUPS[c.n];if(!groups){return '';}
+ return '<aside class="lx-semantic-legend" aria-label="Цветовые группы слов"><p>Цвет объединяет слова по функции, а не означает полную взаимозаменяемость.</p><ul>'+groups.map(function(g){return '<li'+semanticStyle(c,g.ids[0])+'><span class="lx-color-dot" aria-hidden="true"></span>'+esc(g.label)+'</li>';}).join('')+'</ul>'+(c.n===22?'<p>Though также употребляется как конечная оговорка «однако, всё же»; здесь цвет показывает его основную уступительную связь.</p>':'')+'</aside>';
+}
+function lexRanges(text,ranges,c){
   var out='',last=0;
   (ranges||[]).slice().sort(function(a,b){return a[0]-b[0];}).forEach(function(span){
     if(span[0]<last){return;}
-    out+=esc(text.slice(last,span[0]))+'<span class="lx-keyword" data-lx-unit="'+esc(span[2])+'">'+esc(text.slice(span[0],span[1]))+'</span>';last=span[1];
+    out+=esc(text.slice(last,span[0]))+'<span class="lx-keyword" data-lx-unit="'+esc(span[2])+'"'+semanticStyle(c,span[2])+'>'+esc(text.slice(span[0],span[1]))+'</span>';last=span[1];
   });
   return out+esc(text.slice(last));
 }
 function lexExample(c,en,ru,lang){
   var key=JSON.stringify([c.n,en,ru]),entry=EXAMPLE_MARKS[key];
-  return lexRanges(lang==='en'?en:ru,entry&&entry[lang]);
+  return lexRanges(lang==='en'?en:ru,entry&&entry[lang],c);
 }
 function lexProse(text,c){
   text=String(text||'');var re=proseTerms[c.n],last=0,out='',match;re.lastIndex=0;
   while((match=re.exec(text))!==null){
     var before=match.index?text.charAt(match.index-1):'',after=text.charAt(match.index+match[0].length);
     if(/[A-Za-zА-Яа-яЁё]/.test(before)||/[A-Za-zА-Яа-яЁё]/.test(after)){continue;}
-    out+=esc(text.slice(last,match.index))+'<span class="lx-keyword">'+esc(match[0])+'</span>';last=match.index+match[0].length;
+    out+=esc(text.slice(last,match.index))+'<span class="lx-keyword"'+semanticTermStyle(c,match[0])+'>'+esc(match[0])+'</span>';last=match.index+match[0].length;
   }
   return out+esc(text.slice(last));
 }
-function storyParts(parts){
-  return parts.map(function(part){return part.u?'<span class="lx-keyword" data-lx-unit="'+esc(part.u)+'">'+esc(part.text)+'</span>':esc(part.text);}).join('');
+function storyParts(parts,c){
+  return parts.map(function(part){return part.u?'<span class="lx-keyword" data-lx-unit="'+esc(part.u)+'"'+semanticStyle(c,part.u)+'>'+esc(part.text)+'</span>':esc(part.text);}).join('');
 }
 function storyArticle(story,c){
-  return '<article class="lx-story"><h5 class="lx-bh" lang="en">'+esc(story.title)+'</h5><p class="lx-story-en" lang="en">'+storyParts(story.en)+'</p><p class="lx-story-ru" lang="ru">'+storyParts(story.ru)+'</p>'+(story.note?'<p class="lx-story-note"><b>Особенность употребления.</b> '+lexProse(story.note,c)+'</p>':'')+'</article>';
+  return '<article class="lx-story"><h5 class="lx-bh" lang="en">'+esc(story.title)+'</h5><p class="lx-story-en" lang="en">'+storyParts(story.en,c)+'</p><p class="lx-story-ru" lang="ru">'+storyParts(story.ru,c)+'</p>'+(story.note?'<p class="lx-story-note"><b>Особенность употребления.</b> '+lexProse(story.note,c)+'</p>':'')+'</article>';
 }
 function storyHtml(c){
   return storyArticle(STORIES[c.n],c)+(c.legacyStory?'<details class="lx-more lx-legacy-story"><summary>Прежний текст: дополнительная практика</summary>'+storyArticle(c.legacyStory,c)+'<p class="lx-usage-guide">'+lexProse(c.legacyStory.guide,c)+'</p></details>':'');
 }
 function situationItems(c,items){
-  return '<ol class="lx-cmp">'+items.map(function(it){return '<li><span class="lx-cw">'+esc(units[it.u].w)+' <span class="lx-cwtr">('+esc(units[it.u].tr||'')+')</span></span><p class="lx-ce">'+lexExample(c,it.en,it.ru,'en')+'</p><p class="lx-cr">'+lexExample(c,it.en,it.ru,'ru')+'</p><p class="lx-cd">'+lexProse(it.diff,c)+'</p>'+(it.mnem?'<p class="lx-mnem">Ассоциация: '+lexProse(it.mnem,c)+'</p>':'')+'</li>';}).join('')+'</ol>';
+  return '<ol class="lx-cmp">'+items.map(function(it){return '<li'+semanticStyle(c,it.u)+'><span class="lx-cw">'+esc(units[it.u].w)+' <span class="lx-cwtr">('+esc(units[it.u].tr||'')+')</span></span><p class="lx-ce">'+lexExample(c,it.en,it.ru,'en')+'</p><p class="lx-cr">'+lexExample(c,it.en,it.ru,'ru')+'</p><p class="lx-cd">'+lexProse(it.diff,c)+'</p>'+(it.mnem?'<p class="lx-mnem">Ассоциация: '+lexProse(it.mnem,c)+'</p>':'')+'</li>';}).join('')+'</ol>';
 }
 function catLabel(c){return c.parent==='logic'?'22.'+(c.n-21):pad(c.n);}
 
 var INNER_TABS=['Значения и примеры','Взаимозаменяемые формы','Близкие, но не взаимозаменяемые формы','Сравнение в одной ситуации','Сравнение в одном тексте'];
 
 /* ---------- отрисовка ---------- */
-function unitChip(u){
+function unitChip(u,c){
   var un=units[u];
-  return '<li class="lx-unit"><span class="lx-uw">'+esc(un.w)+'</span><span class="lx-tr">'+esc(un.tr||'')+'</span><span class="lx-kind">'+esc(kinds[un.k]||'')+'</span>'+
+  return '<li class="lx-unit"'+semanticStyle(c,u)+'><span class="lx-uw">'+esc(un.w)+'</span><span class="lx-tr">'+esc(un.tr||'')+'</span><span class="lx-kind">'+esc(kinds[un.k]||'')+'</span>'+
   '<button type="button" class="lx-say" data-say="'+esc(u)+'" aria-pressed="false" aria-label="Прослушать: '+esc(un.w)+'">'+ICON+'</button></li>';
 }
 var GROUP_ICONS=['🛠️','💥','📣','🛑','🤔','💭','💡','🧠','👁️','💬','🧘','🚶','😲','⏳','💵','✋','🔑','🧳','🙏','📝','🛡️','🌦️','➕','🔎'];
 function statusMark(icon,text){return '<span class="lx-status-icon" aria-hidden="true">'+esc(icon)+'</span><span class="lx-status-text">'+esc(text)+'</span>';}
 function cardHtml(c){
-  var nn=pad(c.n),summary=c.units.map(function(u){return '<span class="lx-summary-word">'+esc(units[u].w)+'</span>';}).join(' ');
+  var nn=pad(c.n),summary=c.units.map(function(u){return '<span class="lx-summary-word"'+semanticStyle(c,u)+'>'+esc(units[u].w)+'</span>';}).join(' ');
   return '<article class="lx-card'+(c.parent?' lx-subgroup':'')+'" id="lx-cat-'+nn+'" data-cat="'+c.n+'" style="--lx-hue:'+c.hue+'">'+
   '<div class="lx-main"><header class="lx-head"><h4 class="lx-group-heading">'+
     '<button type="button" class="lx-toggle" id="lx-tg-'+nn+'" aria-expanded="false" aria-controls="lx-panel-'+nn+'" aria-label="Развернуть категорию '+catLabel(c)+': '+esc(c.title)+'">'+
@@ -11693,38 +11737,38 @@ function fieldList(text,c,forms){
 function groupButton(card){return document.getElementById('lx-tg-'+pad(+card.dataset.cat));}
 function senseRow(c,s){
   var un=units[s.u];
-  return '<tr><td class="lx-w" data-label="Единица"><span class="lx-wtr">('+esc(un.tr||'')+')</span>'+esc(un.w)+xrefs(s.u,c.n)+'</td>'+
+  return '<tr><td class="lx-w" data-label="Единица"'+semanticStyle(c,s.u)+'><span class="lx-wtr">('+esc(un.tr||'')+')</span>'+esc(un.w)+xrefs(s.u,c.n)+'</td>'+
   '<td data-label="Значение и часть речи"><span class="lx-pos">'+esc(s.pos)+'</span>'+lexProse(s.ru,c)+
   '<div class="lx-gov"><b>Управление:</b> '+fieldList(s.gov,c,false)+'</div><span class="lx-note2">'+lexProse(s.note,c)+'</span></td>'+
   '<td data-label="Английский пример" lang="en">'+lexExample(c,s.en,s.tr,'en')+'</td>'+
   '<td data-label="Русский перевод" lang="ru">'+lexExample(c,s.en,s.tr,'ru')+'</td></tr>';
 }
 function table(head,rows,cap){
-  return '<div class="lx-twrap" tabindex="0" role="region" aria-label="'+esc(cap)+'"><table class="lx-table"><thead><tr>'+head.map(function(h){return '<th scope="col">'+h+'</th>';}).join('')+'</tr></thead><tbody>'+rows.join('')+'</tbody></table></div>';
+  return '<div class="lx-twrap" tabindex="0" role="region" aria-label="'+esc(cap)+'"><table class="lx-table'+(head.length===5?' lx-comparison-table':'')+'">'+(head.length===5?'<colgroup><col style="width:16%"><col style="width:16%"><col style="width:22%"><col style="width:22%"><col style="width:24%"></colgroup>':'')+'<thead><tr>'+head.map(function(h){return '<th scope="col">'+h+'</th>';}).join('')+'</tr></thead><tbody>'+rows.join('')+'</tbody></table></div>';
+}
+function examplePair(c,e,tag,kind){
+ return '<div class="lx-example-pair '+(kind||'')+'"><div class="lx-pair-label">'+(tag||'')+'<span class="lx-f"'+semanticTermStyle(c,e.f)+'>'+esc(e.f)+':</span></div><p class="lx-sen" lang="en">'+lexExample(c,e.en,e.ru,'en')+'</p><p class="lx-tr" lang="ru">'+lexExample(c,e.en,e.ru,'ru')+'</p></div>';
 }
 function interRow(r,c){
   return '<tr><td data-label="Контекст"><span class="lx-ctx">'+lexProse(r.ctx,c)+'</span><span class="lx-type">'+statusMark({'А':'✓','Б':'⚠','В':'⚠','Г':'↔'}[r.t]||'•',I_TYPES[r.t]||r.t)+'</span></td>'+
   '<td data-label="Сравниваемые формы"><div class="lx-forms">'+fieldList(r.forms,c,true)+'</div></td>'+
-  '<td data-label="Предложения">'+r.ex.map(function(e){return '<p class="lx-sen"><span class="lx-f">'+esc(e.f)+':</span>'+lexExample(c,e.en,e.ru,'en')+'</p>';}).join('')+'</td>'+
-  '<td data-label="Переводы">'+r.ex.map(function(e){return '<p class="lx-tr">'+lexExample(c,e.en,e.ru,'ru')+'</p>';}).join('')+'</td>'+
+  '<td colspan="2" data-label="Примеры и переводы" class="lx-pairs-cell">'+r.ex.map(function(e){return examplePair(c,e,'','');}).join('')+'</td>'+
   '<td data-label="Условия замены и различия"><p class="lx-kv"><b>Сохраняется:</b> '+lexProse(r.keeps.replace(/^Сохраняется:\s*/,''),c)+'</p><p class="lx-kv"><b>Меняется:</b> '+lexProse(r.changes.replace(/^Меняется:\s*/,''),c)+'</p><p class="lx-kv"><b>Перестройка:</b> '+lexProse(r.struct,c)+'</p></td></tr>';
 }
 function nonRow(r,c){
-  var sent='',tr='';
+  var sent='';
   r.items.forEach(function(e){
     if(e.k==='bad'){
       var diff=e.lab==='Другой смысл';
       var tag=diff?'<span class="lx-tag diff">'+statusMark('↔','Другой смысл (фраза корректна)')+'</span>':(e.lab==='Неправильный вариант'?'<span class="lx-tag wrong">'+statusMark('⛔','Неправильный вариант')+'</span>':'<span class="lx-tag caution">'+statusMark('⚠','Неестественный вариант')+'</span>');
-      sent+='<p class="lx-sen '+(diff?'is-diff':e.lab==='Неправильный вариант'?'is-bad':'is-caution')+'">'+tag+'<span class="lx-f">'+esc(e.f)+':</span>'+lexExample(c,e.en,e.ru,'en')+'</p>';
-      tr+='<p class="lx-tr">'+lexExample(c,e.en,e.ru,'ru')+'</p>';
+      sent+=examplePair(c,e,tag,diff?'is-diff':e.lab==='Неправильный вариант'?'is-bad':'is-caution');
     }else{
-      sent+='<p class="lx-sen"><span class="lx-tag ok">'+statusMark('✓','Корректно'+(e.k==='alt'?' (другая форма)':''))+'</span><span class="lx-f">'+esc(e.f)+':</span>'+lexExample(c,e.en,e.ru,'en')+'</p>';
-      tr+='<p class="lx-tr">'+lexExample(c,e.en,e.ru,'ru')+'</p>';
+      sent+=examplePair(c,e,'<span class="lx-tag ok">'+statusMark('✓','Корректно'+(e.k==='alt'?' (другая форма)':''))+'</span>','');
     }
   });
   return '<tr><td data-label="Контекст"><span class="lx-ctx">'+lexProse(r.ctx,c)+'</span><span class="lx-type">'+statusMark({'А':'⛔','Б':'⚠','В':'↔','Г':'⚠','Д':'⛔','Е':'⛔'}[r.t]||'•',N_TYPES[r.t]||r.t)+'</span></td>'+
   '<td data-label="Сравниваемые формы"><div class="lx-forms">'+fieldList(r.forms,c,true)+'</div></td>'+
-  '<td data-label="Предложения">'+sent+'</td><td data-label="Переводы">'+tr+'</td>'+
+  '<td colspan="2" data-label="Примеры и переводы" class="lx-pairs-cell">'+sent+'</td>'+
   '<td data-label="Почему замена невозможна или меняет смысл">'+lexProse(r.why,c)+'</td></tr>';
 }
 function moreBlock(rows,head,cap){
@@ -11735,7 +11779,7 @@ function innerPanelStart(nn,number){
   return '<div class="lx-inner-panel" id="lx-b'+number+'-'+nn+'" role="tabpanel" aria-labelledby="lx-inner-'+nn+'-'+number+'" tabindex="0" hidden>';
 }
 function panelHtml(c){
-  var nn=pad(c.n),h='<div class="lx-general" id="lx-general-'+nn+'"><p class="lx-intro">'+lexProse(c.intro,c)+'</p><ul class="lx-units" aria-label="Единицы категории '+c.n+'">'+c.units.map(unitChip).join('')+'</ul>';
+  var nn=pad(c.n),h='<div class="lx-general" id="lx-general-'+nn+'"><p class="lx-intro">'+lexProse(c.intro,c)+'</p>'+semanticLegend(c)+'<ul class="lx-units" aria-label="Единицы категории '+c.n+'">'+c.units.map(function(u){return unitChip(u,c);}).join('')+'</ul>';
   h+='<div class="lx-rel"><b>Состав категории и связь с темой.</b> '+lexProse(c.rel,c)+'</div>';
   h+='</div><div class="lx-inner-tabs" role="tablist" aria-label="Материалы категории '+c.n+'">'+INNER_TABS.map(function(label,i){return '<button type="button" role="tab" class="lx-inner-toggle" id="lx-inner-'+nn+'-'+(i+1)+'" data-lx-tab="'+(i+1)+'" aria-controls="lx-b'+(i+1)+'-'+nn+'" aria-selected="false" aria-expanded="false" tabindex="'+(i===0?'0':'-1')+'">'+label+'</button>';}).join('')+'</div>';
   /* блок 1 */
