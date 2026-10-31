@@ -1675,6 +1675,16 @@ nav.tabs button[data-tab].quiz-done::after { content: " ✓"; color: var(--color
 .lx-section .lx-cmp .lx-ce, .lx-section .lx-cmp .lx-cr { margin:0; align-self:start; }
 @media (max-width:720px) { .lx-section .lx-cmp>li { grid-template-columns:minmax(0,1fr); } }
 
+/* Keep long dictionary glosses inside the word column instead of widening it. */
+.lx-section .lx-sense-table { table-layout:fixed; }
+.lx-section .lx-sense-table .lx-w { white-space:normal; overflow-wrap:anywhere; }
+.lx-section .lx-sense-table td { overflow-wrap:anywhere; }
+.lx-section .lx-sense-word { display:block; font-size:15px; margin-bottom:7px; }
+.lx-section .lx-sense-table .lx-wtr { margin:0 0 8px; font-weight:400; line-height:1.55; color:var(--color-text-muted); }
+.lx-section .lx-sense-table .lx-pos { margin:0 0 6px; }
+.lx-section .lx-sense-table .lx-field-list { padding-left:16px; margin-top:0; }
+@media (max-width:720px) { .lx-section .lx-sense-table colgroup { display:none; } }
+
 /* Sentence and its translation always occupy the same visual row. */
 .lx-section .lx-example-pair { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:6px 16px; padding:0 0 14px; margin:0 0 14px; border-bottom:1px solid var(--color-divider); }
 .lx-section .lx-example-pair:last-child { margin-bottom:0; padding-bottom:0; border-bottom:0; }
@@ -11737,14 +11747,14 @@ function fieldList(text,c,forms){
 function groupButton(card){return document.getElementById('lx-tg-'+pad(+card.dataset.cat));}
 function senseRow(c,s){
   var un=units[s.u];
-  return '<tr><td class="lx-w" data-label="Единица"'+semanticStyle(c,s.u)+'><span class="lx-wtr">('+esc(un.tr||'')+')</span>'+esc(un.w)+xrefs(s.u,c.n)+'</td>'+
-  '<td data-label="Значение и часть речи"><span class="lx-pos">'+esc(s.pos)+'</span>'+lexProse(s.ru,c)+
+  return '<tr><td class="lx-w" data-label="Единица"'+semanticStyle(c,s.u)+'><span class="lx-sense-word">'+esc(un.w)+'</span><div class="lx-wtr">'+fieldList(un.tr||'',c,false)+'</div>'+xrefs(s.u,c.n)+'</td>'+
+  '<td data-label="Значение и часть речи"><span class="lx-pos">'+esc(s.pos)+'</span><div class="lx-meaning">'+fieldList(s.ru,c,false)+'</div>'+
   '<div class="lx-gov"><b>Управление:</b> '+fieldList(s.gov,c,false)+'</div><span class="lx-note2">'+lexProse(s.note,c)+'</span></td>'+
   '<td data-label="Английский пример" lang="en">'+lexExample(c,s.en,s.tr,'en')+'</td>'+
   '<td data-label="Русский перевод" lang="ru">'+lexExample(c,s.en,s.tr,'ru')+'</td></tr>';
 }
 function table(head,rows,cap){
-  return '<div class="lx-twrap" tabindex="0" role="region" aria-label="'+esc(cap)+'"><table class="lx-table'+(head.length===5?' lx-comparison-table':'')+'">'+(head.length===5?'<colgroup><col style="width:16%"><col style="width:16%"><col style="width:22%"><col style="width:22%"><col style="width:24%"></colgroup>':'')+'<thead><tr>'+head.map(function(h){return '<th scope="col">'+h+'</th>';}).join('')+'</tr></thead><tbody>'+rows.join('')+'</tbody></table></div>';
+  return '<div class="lx-twrap" tabindex="0" role="region" aria-label="'+esc(cap)+'"><table class="lx-table'+(head.length===5?' lx-comparison-table':' lx-sense-table')+'">'+(head.length===5?'<colgroup><col style="width:16%"><col style="width:16%"><col style="width:22%"><col style="width:22%"><col style="width:24%"></colgroup>':'<colgroup><col style="width:20%"><col style="width:32%"><col style="width:24%"><col style="width:24%"></colgroup>')+'<thead><tr>'+head.map(function(h){return '<th scope="col">'+h+'</th>';}).join('')+'</tr></thead><tbody>'+rows.join('')+'</tbody></table></div>';
 }
 function examplePair(c,e,tag,kind){
  return '<div class="lx-example-pair '+(kind||'')+'"><div class="lx-pair-label">'+(tag||'')+'<span class="lx-f"'+semanticTermStyle(c,e.f)+'>'+esc(e.f)+':</span></div><p class="lx-sen" lang="en">'+lexExample(c,e.en,e.ru,'en')+'</p><p class="lx-tr" lang="ru">'+lexExample(c,e.en,e.ru,'ru')+'</p></div>';
