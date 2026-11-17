@@ -1,6 +1,6 @@
 /* One lazy, file://-compatible source for dictionary and exercise views. */
 (function(){'use strict';
-const sourceUrl=new URL('data.js?v=2',document.currentScript.src).href;let pending,raw,index;
+const sourceUrl=new URL('data.js?v=3',document.currentScript.src).href;let pending,raw,index;
 const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
 function bindWord(w,topicId,listId){w.id=listId+':'+(w.number||slug(w.en));w.topicId=topicId;return w}
 function buildIndex(d){const entries=new Map();
