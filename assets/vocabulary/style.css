@@ -24,3 +24,13 @@ body:has([data-section="english-words"].active) xt-control-center{display:none!i
 /* The image file already contains a safe inset; keep its full square visible. */
 .tv-card-top>img,#tv-exercises .vx-item>img{object-fit:contain;object-position:center;flex-shrink:0}
 #tv-guidance .tv-note{max-width:none}
+/* Central themes stay together between the four original menu blocks. */
+.tv-menu{grid-template-columns:1fr 1fr 240px 1fr 1fr}
+.tv-menu-center{grid-area:center;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;min-width:0}
+.tv-menu-center .tv-central{grid-area:auto;align-self:stretch;justify-self:stretch;min-height:112px;width:auto;max-width:100%;font-size:.78rem;flex-direction:column;padding:8px 5px;border-color:#d6dce0}
+.tv-menu-center .tv-central img{width:48px;height:48px}
+.tv-menu-center .tv-property{grid-column:1/-1;min-height:78px;flex-direction:row;font-size:.9rem}
+.tv-sequence{display:block;font-size:.75rem;color:var(--color-text-muted,#65707b);margin-bottom:7px;font-variant-numeric:tabular-nums}
+@media(max-width:1250px){.tv-menu{grid-template-columns:1fr 240px 1fr}}
+@media(max-width:680px){.tv-menu{grid-template-columns:1fr 1fr}.tv-menu-center{width:min(100%,360px);justify-self:center}}
+@media(max-width:420px){.tv-menu{grid-template-columns:1fr}}
