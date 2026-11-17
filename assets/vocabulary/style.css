@@ -19,3 +19,7 @@
 @media(max-width:420px){.tv-grid{grid-template-columns:1fr}.tv-card-top{display:grid;grid-template-columns:64px minmax(0,1fr);min-height:76px;align-items:center;gap:10px}.tv-card-top h4{font-size:1.06rem}.tv-card-top>img{width:64px;height:64px}.tv-card-top p{font-size:.88rem}.tv-en{font-size:.94rem}.tv-ru{font-size:.86rem}.tv-card{padding:13px}.tv-number{display:block;min-height:0}}
 /* The saved page contains an old translator widget with an invisible overlay. */
 body:has([data-section="english-words"].active) xt-control-center{display:none!important}
+.tv-workspace-heading{text-align:center;margin:0 auto 18px}.tv-workspace-heading h2{font-size:clamp(1.6rem,3vw,2.2rem);margin:0 0 7px}.tv-workspace-heading p{max-width:none;text-align:center;margin:0;color:var(--color-text-muted,#65707b)}
+.tv-main-tabs{display:flex;justify-content:center;gap:9px;margin:18px 0 26px}.tv-main-tabs button{font:inherit;font-size:1rem;padding:11px 25px;background:var(--color-surface,#fff);color:inherit;border:1px solid var(--color-border,#d4dce2);border-radius:9px;cursor:pointer}.tv-main-tabs button[aria-selected=true]{background:var(--color-primary-light,#e7edf3);border-color:#7b91a5;font-weight:650}.tv-main-tabs button:focus-visible{outline:3px solid #326f99;outline-offset:3px}
+/* The image file already contains a safe inset; keep its full square visible. */
+.tv-card-top>img,#tv-exercises .vx-item>img{object-fit:contain;object-position:center;flex-shrink:0}

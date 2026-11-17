@@ -1,16 +1,15 @@
 (function(){'use strict';
-const root=document.querySelector('[data-section="english-words"]');if(!root)return;
-const mainTab=document.querySelector('nav.tabs [data-tab="english-words"]');
+const root=document.getElementById('tv-dictionary');if(!root)return;
 let data,loading,theme='kitchen',group='food',numberMode='cardinal',suffix='ship',query='';
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const pair=(en,ru)=>'<p class="tv-en" lang="en">'+esc(en)+'</p><p class="tv-ru" lang="ru">'+esc(ru)+'</p>';
 function read(){try{return JSON.parse(sessionStorage.getItem('thematic-vocabulary')||'{}')}catch{return {}}}
 function save(){try{sessionStorage.setItem('thematic-vocabulary',JSON.stringify({theme,group,numberMode,suffix}))}catch{}}
 function tab(label,key,value,active){return '<button type="button" role="tab" id="tv-tab-'+key+'-'+value+'" data-tv-'+key+'="'+value+'" aria-selected="'+active+'" tabindex="'+(active?'0':'-1')+'" aria-controls="tv-content">'+esc(label)+'</button>'}
-function menuButton(t,i){return '<button type="button" class="tv-topic'+(i===24?' tv-central':'')+'" data-tv-theme="'+t.id+'" aria-pressed="'+(theme===t.id)+'" style="background:'+t.color+'" aria-label="'+esc(t.title)+'"><img src="assets/vocabulary/menu/'+t.id+'.webp" width="56" height="56" alt="" decoding="async"><span>'+esc(t.short)+'</span></button>'}
+function menuButton(t,i){return '<button type="button" class="tv-topic'+(i===24?' tv-central':'')+'" data-tv-theme="'+t.id+'" aria-pressed="'+(theme===t.id)+'" style="background:'+t.color+'" aria-label="'+esc(t.title)+'"><img src="assets/vocabulary/menu/'+t.id+'.webp?v=2" width="56" height="56" alt="" decoding="async"><span>'+esc(t.short)+'</span></button>'}
 function shell(){
  const saved=read();if(data.themes.some(t=>t.id===saved.theme))theme=saved.theme;if(['food','drinks'].includes(saved.group))group=saved.group;if(['cardinal','ordinal'].includes(saved.numberMode))numberMode=saved.numberMode;if(data.suffixes.some(s=>s.id===saved.suffix))suffix=saved.suffix;
- root.innerHTML='<header class="tv-heading"><p class="tv-eyebrow">American English</p><h2>Английские слова</h2><p>Тематический словарь · 25 тем · слово, образ и пример</p></header><div class="tv-menu" aria-label="Тематические разделы">'+[0,1,2,3].map((b)=>'<div class="tv-menu-block tv-block-'+b+'">'+data.themes.slice(b*6,b*6+6).map((t,i)=>menuButton(t,b*6+i)).join('')+'</div>').join('')+menuButton(data.themes[24],24)+'</div><div class="tv-section-heading"><h3 id="tv-title"></h3><p id="tv-count" role="status" aria-live="polite"></p></div><div id="tv-inner-tabs"></div><div class="tv-search-wrap"><label for="tv-search">Найти в этой теме</label><input type="search" id="tv-search" placeholder="Слово, перевод или пример" autocomplete="off"><button type="button" data-tv-clear>Очистить</button></div><div id="tv-guidance"></div><div id="tv-content"></div>';
+ root.innerHTML='<div class="tv-menu" aria-label="Тематические разделы">'+[0,1,2,3].map((b)=>'<div class="tv-menu-block tv-block-'+b+'">'+data.themes.slice(b*6,b*6+6).map((t,i)=>menuButton(t,b*6+i)).join('')+'</div>').join('')+menuButton(data.themes[24],24)+'</div><div class="tv-section-heading"><h3 id="tv-title"></h3><p id="tv-count" role="status" aria-live="polite"></p></div><div id="tv-inner-tabs"></div><div class="tv-search-wrap"><label for="tv-search">Найти в этой теме</label><input type="search" id="tv-search" placeholder="Слово, перевод или пример" autocomplete="off"><button type="button" data-tv-clear>Очистить</button></div><div id="tv-guidance"></div><div id="tv-content"></div>';
  render();
 }
 function activeWords(t){if(t.id==='numbers')return data.numbers[numberMode];if(t.id==='food')return t.groups.find(g=>g.id===group).words;return t.words||[]}
@@ -37,7 +36,5 @@ root.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)retur
  const value=b.getAttribute('data-tv-'+key);render();root.querySelector('[data-tv-'+key+'="'+value+'"]').focus({preventScroll:true});});
 root.addEventListener('input',e=>{if(e.target.id==='tv-search'){query=e.target.value;render()}});
 root.addEventListener('keydown',e=>{const b=e.target.closest('button[role="tab"]');if(!b)return;const nav=b.closest('[role="tablist"]'),bs=[...nav.querySelectorAll('button')];let i=bs.indexOf(b);if(e.key==='ArrowRight')i=(i+1)%bs.length;else if(e.key==='ArrowLeft')i=(i-1+bs.length)%bs.length;else if(e.key==='Home')i=0;else if(e.key==='End')i=bs.length-1;else return;e.preventDefault();bs[i].click();});
-mainTab.addEventListener('click',()=>{init();if(!location.hash.startsWith('#english-words'))history.replaceState(null,'','#english-words')});
-function deepLink(){if(location.hash==='#english-words'||location.hash==='#thematic-vocabulary')mainTab.click()}
-window.addEventListener('hashchange',deepLink);deepLink();
+root.addEventListener('vocab:open',init);
 })();

@@ -1,5 +1,5 @@
 (function(){'use strict';
-const root=document.querySelector('[data-section="vocabulary-exercises"]'),mainTab=document.querySelector('nav.tabs [data-tab="vocabulary-exercises"]');if(!root||!mainTab)return;
+const root=document.getElementById('tv-exercises');if(!root)return;
 const API=window.AEVocabulary;
 const TYPES=[
 {id:'meaning',title:'Слово → перевод',size:10,per:1,label:'Английское слово → русский перевод',lang:'ru'},
@@ -49,8 +49,7 @@ root.addEventListener('toggle',e=>{if(e.target.classList.contains('vx-material')
 root.addEventListener('submit',e=>{e.preventDefault();root.querySelector('.vx-draft-status').textContent='Черновик сохранён. Проверка ответов появится на следующем этапе.'});
 root.addEventListener('keydown',e=>{if(e.key==='Escape'&&pendingAction){e.preventDefault();root.querySelector('[data-vx-cancel]').click();return}const b=e.target.closest('[data-vx-type]');if(!b)return;let i=TYPES.findIndex(t=>t.id===b.dataset.vxType);if(e.key==='ArrowRight')i=(i+1)%TYPES.length;else if(e.key==='ArrowLeft')i=(i-1+TYPES.length)%TYPES.length;else if(e.key==='Home')i=0;else if(e.key==='End')i=TYPES.length-1;else return;e.preventDefault();root.querySelector('[data-vx-type='+TYPES[i].id+']').click()});
 async function init(){if(loaded)return;if(loading)return loading;root.innerHTML='<p role="status">Загружаем общую базу словаря…</p>';loading=(async()=>{try{await API.load();loaded=true;renderFrame()}catch(e){loading=null;root.innerHTML='<p role="alert">'+E(e.message)+'. Откройте другую вкладку и вернитесь, чтобы повторить загрузку.</p>';console.error(e)}})();return loading}
-mainTab.addEventListener('click',()=>{init();if(location.hash!=='#vocabulary-exercises')history.replaceState(null,'','#vocabulary-exercises')});
-function deepLink(){if(location.hash==='#vocabulary-exercises')mainTab.click()}window.addEventListener('hashchange',deepLink);deepLink();
+root.addEventListener('vocab:open',init);
 // The state contains only current IDs, drafts and UI state. No historical banks or duplicated word data.
 window.AEVocabularyExercises=Object.freeze({getState:()=>state,types:TYPES.map(t=>({...t}))});
 })();
