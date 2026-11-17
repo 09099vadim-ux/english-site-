@@ -34,3 +34,4 @@ body:has([data-section="english-words"].active) xt-control-center{display:none!i
 @media(max-width:1250px){.tv-menu{grid-template-columns:1fr 240px 1fr}}
 @media(max-width:680px){.tv-menu{grid-template-columns:1fr 1fr}.tv-menu-center{width:min(100%,360px);justify-self:center}}
 @media(max-width:420px){.tv-menu{grid-template-columns:1fr}}
+.tv-menu-center .tv-technology{grid-column:1/-1;min-height:78px;flex-direction:row;font-size:.9rem}
