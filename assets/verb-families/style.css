@@ -41,3 +41,12 @@
 #vf-root .vf-derived-host .vf-history{top:var(--vf-bar-height,80px)}
 #vf-root .vf-phrasal .vf-two-examples .vf-example{text-align:center}
 #vf-root .vf-form-focus{background:color-mix(in srgb,var(--vf-color) 10%,transparent);color:var(--vf-color);padding:0 2px;border-radius:3px;font-weight:650}
+
+/* Each existing derived-word section occupies its own column. */
+#vf-root .vf-derived-columns{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,1fr);overflow-x:auto;overscroll-behavior-x:contain;gap:0;padding:10px 0 14px;margin-top:12px}
+#vf-root .vf-derived-column{min-width:0;padding:0 18px;overflow-wrap:anywhere}
+#vf-root .vf-derived-column+ .vf-derived-column{border-left:1px solid var(--color-border)}
+#vf-root .vf-derived-column>h6{margin:0 0 12px}
+#vf-root .vf-derived-column .vf-comparison{grid-template-columns:1fr}
+#vf-root .vf-derived-column .vf-comparison>section+section{border-left:0;border-top:1px solid var(--color-border);padding:10px 0 0}
+@media(max-width:600px){#vf-root .vf-derived-columns{grid-auto-columns:minmax(230px,85%)}#vf-root .vf-derived-column{padding-inline:12px}}
