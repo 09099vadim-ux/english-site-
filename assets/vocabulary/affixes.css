@@ -18,3 +18,29 @@
 #tv-dictionary #afx-root .tv-affix-sentence+section{border-top:1px solid var(--color-border)}
 #tv-dictionary #afx-root .tv-affix-sentence small{color:var(--color-text-muted);font-size:.72rem}
 @media(max-width:620px){#tv-dictionary #afx-root .afx-card{min-height:500px}#tv-dictionary #afx-root .afx-card-face{padding:20px}}
+/* Comparisons fit the card: the opened card may use two grid columns. */
+#tv-dictionary #afx-root .afx-heading>p{max-width:850px;margin:10px auto;text-align:center}
+#tv-dictionary #afx-root .afx-card{min-height:465px}
+#tv-dictionary #afx-root .afx-card:has(.afx-overlay){grid-column:span 2}
+#tv-dictionary #afx-root .afx-overlay{position:relative;inset:auto;overflow:visible;min-height:465px;padding:56px 18px 18px}
+#tv-dictionary #afx-root .afx-overlay>.afx-close{left:auto;right:12px;top:10px;width:44px;min-height:44px;font-size:1.8rem;border:2px solid var(--afx-color);background:color-mix(in srgb,var(--afx-color) 12%,var(--color-surface))}
+#tv-dictionary #afx-root .afx-compare-scroll{overflow:visible;max-width:100%}
+#tv-dictionary #afx-root .afx-compare-grid{grid-template-columns:repeat(var(--afx-cols),minmax(0,1fr))}
+#tv-dictionary #afx-root .afx-compare-grid>section{padding:10px 8px}
+#tv-dictionary #afx-root .afx-compare-grid h6{font-size:1.05rem;margin:2px 0 5px}
+#tv-dictionary #afx-root .afx-diagram{width:145px;height:94px;max-width:100%;margin:5px auto 8px}
+#tv-dictionary #afx-root .afx-overlay .afx-tone{font-size:.81rem;line-height:1.45;margin:6px 0}
+#tv-dictionary #afx-root .afx-compare-grid p{font-size:.86rem;margin:5px 0;line-height:1.4}
+#tv-dictionary #afx-root .afx-summary{border-top:1px solid var(--color-border);padding-top:10px;font-size:.78rem!important;line-height:1.5!important}
+#tv-dictionary #afx-root .afx-summary>span{display:inline}
+#tv-dictionary #afx-root[data-afx-kind=prefixes] .afx-table-scroll{max-width:1150px;margin-inline:auto}
+#tv-dictionary #afx-root[data-afx-kind=prefixes] table{table-layout:fixed;min-width:700px}
+#tv-dictionary #afx-root[data-afx-kind=prefixes] th:first-child{width:12%}
+#tv-dictionary #afx-root[data-afx-kind=prefixes] th:nth-child(2){width:20%}
+#tv-dictionary #afx-root[data-afx-kind=prefixes] th:nth-child(3){width:23%}
+#tv-dictionary #afx-root[data-afx-kind=prefixes] th:nth-child(4){width:45%}
+#tv-dictionary #afx-root[data-afx-kind=prefixes] td{font-size:.84rem;padding:10px;overflow-wrap:anywhere}
+#tv-dictionary #afx-root thead th{text-align:center}
+#tv-dictionary #afx-root .tv-affix-sentence{text-align:center;min-height:85px}
+@media(max-width:650px){#tv-dictionary #afx-root .afx-card:has(.afx-overlay){grid-column:1/-1}#tv-dictionary #afx-root .afx-compare-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#tv-dictionary #afx-root .afx-compare-grid>section:nth-child(odd){border-left:0}#tv-dictionary #afx-root .afx-compare-grid>section:nth-child(n+3){border-top:1px solid var(--color-border)}#tv-dictionary #afx-root .afx-overlay{padding-inline:12px;min-height:0}#tv-dictionary #afx-root .afx-compare-grid[style*="--afx-cols:3"]>section:last-child{grid-column:1/-1}#tv-dictionary #afx-root .afx-card{min-height:440px}}
+#tv-dictionary #afx-root .afx-summary{width:100%;max-width:none}
