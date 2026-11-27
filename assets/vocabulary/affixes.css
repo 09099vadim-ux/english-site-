@@ -1,0 +1,20 @@
+/* Larger cards and comparison diagrams in 8989's existing wide dictionary. */
+#tv-dictionary #afx-root{width:100%;max-width:none;margin:22px 0}
+#tv-dictionary #afx-root .afx-heading{max-width:1000px;margin-inline:auto}
+#tv-dictionary #afx-root .afx-description{max-width:1150px}
+#tv-dictionary #afx-root .afx-grid{gap:20px}
+#tv-dictionary #afx-root .afx-card{min-height:535px}
+#tv-dictionary #afx-root .afx-card-face{padding:25px}
+#tv-dictionary #afx-root .afx-card h5{font-size:1.9rem}
+#tv-dictionary #afx-root .afx-card p{font-size:.95rem;line-height:1.65}
+#tv-dictionary #afx-root .afx-word-pair{margin:20px 0;gap:12px}
+#tv-dictionary #afx-root .afx-word-pair [lang=en]{font-size:1.12rem}
+#tv-dictionary #afx-root .afx-overlay{padding:54px 18px 20px}
+#tv-dictionary #afx-root .afx-compare-grid{grid-template-columns:repeat(var(--afx-cols),minmax(190px,1fr))}
+#tv-dictionary #afx-root .afx-diagram{width:165px;height:100px;margin:8px auto 15px}
+#tv-dictionary #afx-root .afx-overlay .afx-tone{font-size:.86rem}
+#tv-dictionary #afx-root .tv-affix-table-heading{background:color-mix(in srgb,var(--afx-color) 8%,var(--color-surface));white-space:normal;padding:16px}
+#tv-dictionary #afx-root .tv-affix-sentence{min-height:100px;display:flex;flex-direction:column;justify-content:center;padding:8px 0}
+#tv-dictionary #afx-root .tv-affix-sentence+section{border-top:1px solid var(--color-border)}
+#tv-dictionary #afx-root .tv-affix-sentence small{color:var(--color-text-muted);font-size:.72rem}
+@media(max-width:620px){#tv-dictionary #afx-root .afx-card{min-height:500px}#tv-dictionary #afx-root .afx-card-face{padding:20px}}
