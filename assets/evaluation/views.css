@@ -1,0 +1,29 @@
+/* Evaluation vocabulary: two views of the same dictionary. */
+#ev-root .ev-view-tabs{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin:18px 0}
+#ev-root .ev-view-tabs button{font:inherit;font-size:.85rem;line-height:1.4;min-height:42px;padding:8px 13px;color:var(--color-text);background:var(--color-surface);border:1px solid var(--color-border);border-radius:8px;cursor:pointer;max-width:100%;overflow-wrap:anywhere}
+#ev-root .ev-view-tabs button[aria-selected=true]{border-color:var(--ev-color);background:color-mix(in srgb,var(--ev-color) 10%,var(--color-surface));box-shadow:inset 0 -3px var(--ev-color)}
+#ev-root .ev-view-tabs button:focus-visible,#ev-root .ev-preview-open:focus-visible{outline:3px solid var(--ev-ink);outline-offset:3px}
+#ev-root .ev-preview-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:18px 0}
+#ev-root .ev-preview{display:flex;flex-direction:column;min-width:0;padding:16px;border:1px solid var(--color-border);border-top:3px solid var(--ev-color);border-radius:10px;background:var(--color-surface);text-align:left;overflow-wrap:anywhere}
+#ev-root .ev-preview h5{font-family:Georgia,serif;font-size:1.3rem;line-height:1.3;font-weight:500;color:var(--ev-ink);margin:0 0 8px;text-align:left}
+#ev-root .ev-preview-translation{font-size:.9rem;font-weight:600;margin:0 0 14px;color:var(--color-text)}
+#ev-root .ev-preview h6{font-size:.76rem;color:var(--color-text-muted);margin:0 0 5px}
+#ev-root .ev-preview-purpose{font-size:.83rem;line-height:1.6;margin:0 0 12px}
+#ev-root .ev-preview .ev-example{font-size:.86rem;border-top:1px solid var(--color-border);padding-top:10px;margin-bottom:14px}
+#ev-root .ev-preview .ev-example p{overflow-wrap:anywhere}
+#ev-root .ev-preview-open{align-self:flex-start;margin-top:auto;font:inherit;font-size:.78rem;line-height:1.4;min-height:40px;padding:8px 10px;max-width:100%;border:1px solid var(--ev-color);border-radius:7px;background:var(--color-surface);color:var(--ev-ink);cursor:pointer}
+#ev-root #ev-comparison-panel>.ev-comparison{padding:18px;border-left:3px solid var(--ev-color)}
+#ev-root #ev-comparison-panel h5{color:var(--ev-ink);font-size:1.1rem;margin:0 0 12px}
+#ev-root .ev-card-columns{gap:0}
+#ev-root .ev-card-columns>div{min-width:0;padding-right:20px}
+#ev-root .ev-card-columns>div+div{border-left:2px solid color-mix(in srgb,var(--ev-color) 45%,var(--color-border));padding:0 0 0 20px}
+#ev-root .ev-card-columns>div>section{border-top:2px solid color-mix(in srgb,var(--ev-color) 45%,var(--color-border));padding:18px 0}
+#ev-root .ev-position+.ev-position{border-top:1px solid color-mix(in srgb,var(--ev-color) 30%,var(--color-border));padding-top:12px;margin-top:12px}
+#ev-root .ev-word-illustration{width:min(210px,100%);max-width:100%;align-self:center;margin:18px auto;padding:10px 0}
+#ev-root .ev-word-illustration svg{max-height:175px;width:100%;height:auto}
+#ev-root .ev-word-illustration figcaption{font-size:.72rem;line-height:1.55;text-align:center}
+#ev-root .ev-word-illustration figcaption>span{display:block;margin-top:5px}
+#ev-root .ev-help-pair>section{border-color:color-mix(in srgb,var(--ev-color) 40%,var(--color-border))}
+@media(max-width:1100px){#ev-root .ev-preview-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:900px){#ev-root .ev-card-columns>div{padding:0}#ev-root .ev-card-columns>div+div{border-left:0;padding:0}}
+@media(max-width:580px){#ev-root .ev-preview-grid{grid-template-columns:minmax(0,1fr)}#ev-root .ev-preview{padding:15px}}
