@@ -8,3 +8,18 @@
 [data-section=lexicon].lv-modern .lx-card .lx-panel{background:color-mix(in srgb,hsl(var(--lx-hue) 55% 60%) 4%,var(--color-surface))}
 [data-section=lexicon].lv-modern .lx-title .lv-group-symbol{font-size:.9em}
 @media(max-width:600px){[data-section=lexicon].lv-modern .lv-navigation{padding:10px}}
+/* Filled group selectors and clear boundaries between independent meanings. */
+[data-section="lexicon"] .lv-theme-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+[data-section="lexicon"] .lv-theme-tabs button{width:100%;min-height:76px;border:1px solid hsl(var(--lv-hue) 35% 72%);border-radius:12px;background:hsl(var(--lv-hue) 48% 91%);box-shadow:none;white-space:normal;text-align:center}
+[data-section="lexicon"] .lv-theme-tabs button[aria-pressed="true"]{background:hsl(var(--lv-hue) 48% 82%);border-color:hsl(var(--lv-hue) 40% 46%);outline:2px solid hsl(var(--lv-hue) 35% 65%);outline-offset:1px}
+#lv-small-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(220px,100%),1fr));gap:10px}
+#lv-small-groups .lv-group-choice{width:100%;background:hsl(var(--lv-hue) 44% 91%);border-radius:10px;min-height:58px;white-space:normal}
+#lv-word-dialog .lv-meaning-list>section+section,#lv-word-dialog .lv-prep-section+.lv-prep-section{border-top:2px solid hsl(var(--lv-hue,215) 25% 70%);padding-top:18px;margin-top:18px}
+#lv-word-dialog .lv-meaning-example{border:0;padding:8px 0}
+#lv-word-dialog .lv-relation-grid{gap:0}
+#lv-word-dialog .lv-relation-grid>article{border-radius:0;border:1px solid #c7cdd5;padding:16px;min-width:0;overflow-wrap:anywhere}
+#lv-word-dialog .nx-relation-explanation{border-top:1px solid #ccd1d8;padding-top:12px;text-align:left}
+@media(max-width:800px){[data-section="lexicon"] .lv-theme-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:400px){[data-section="lexicon"] .lv-theme-tabs button{font-size:13px;padding:9px}}
+.lx-sense-table .lx-gov-example-row>td{border-bottom:0}
+.lx-sense-table .lx-sense-start>td{border-top:2px solid #b8c3cf}

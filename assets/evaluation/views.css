@@ -70,3 +70,11 @@
 #ev-root .ev-replacement-status{font-weight:650}
 #ev-root .ev-word-metadata [data-ev-pos^="разговорное наречие"],#ev-root .ev-word-metadata [data-ev-pos^="связующее наречие"]{--ev-tag:#a46b24}
 #ev-root .ev-word-metadata [data-ev-pos^="связка"],#ev-root .ev-word-metadata [data-ev-pos^="союз"]{--ev-tag:#7559a0}
+.ev-group-heading-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,440px);align-items:center;gap:20px}
+.ev-group-heading-top h4{margin:0}
+.ev-heading-tools-slot .ev-tools{margin:0;display:block}
+.ev-heading-tools-slot .ev-tools label{display:block}
+.ev-heading-tools-slot input{width:100%;box-sizing:border-box}
+.ev-heading-tools-slot #ev-count{display:block;margin-top:5px;font-size:12px}
+.ev-result-origin{font-size:12px;color:#526174;margin:5px 0}
+@media(max-width:700px){.ev-group-heading-top{grid-template-columns:minmax(0,1fr);gap:12px}}
