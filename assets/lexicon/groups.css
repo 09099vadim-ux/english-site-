@@ -1,0 +1,10 @@
+[data-section=lexicon].lv-modern .lv-group-symbol,[data-section=lexicon].lv-modern .lv-theme-symbol{display:inline-block;margin-inline-end:8px;font-size:1.05em;line-height:1;vertical-align:baseline}
+[data-section=lexicon].lv-modern .lv-theme-tabs button{background:color-mix(in srgb,hsl(var(--lv-hue) 55% 55%) 7%,var(--color-surface))}
+[data-section=lexicon].lv-modern .lv-theme-tabs button[aria-selected=true]{background:color-mix(in srgb,hsl(var(--lv-hue) 55% 55%) 14%,var(--color-surface))}
+[data-section=lexicon].lv-modern .lv-navigation{padding:14px 16px;border-radius:12px;background:color-mix(in srgb,hsl(var(--lv-theme-hue,175) 50% 60%) 5%,var(--color-surface));border:1px solid var(--color-border)}
+[data-section=lexicon].lv-modern .lv-group-choice{background:color-mix(in srgb,hsl(var(--lv-hue) 55% 60%) 7%,var(--color-surface))}
+[data-section=lexicon].lv-modern .lx-card{background:color-mix(in srgb,hsl(var(--lx-hue) 55% 60%) 6%,var(--color-surface))}
+[data-section=lexicon].lv-modern .lx-card .lx-main,[data-section=lexicon].lv-modern .lx-card .lx-head{background:transparent}
+[data-section=lexicon].lv-modern .lx-card .lx-panel{background:color-mix(in srgb,hsl(var(--lx-hue) 55% 60%) 4%,var(--color-surface))}
+[data-section=lexicon].lv-modern .lx-title .lv-group-symbol{font-size:.9em}
+@media(max-width:600px){[data-section=lexicon].lv-modern .lv-navigation{padding:10px}}

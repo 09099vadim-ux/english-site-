@@ -52,3 +52,21 @@
 @media(max-width:950px){#ev-root #ev-comparison-panel .ev-comparison-examples{grid-template-columns:repeat(2,minmax(0,1fr))}#ev-root .ev-compare-word:nth-child(odd){border-left:0}#ev-root .ev-compare-word:nth-child(n+3){border-top:1px solid var(--color-border)}}
 @media(max-width:580px){#ev-root #ev-comparison-panel .ev-comparison-examples{grid-template-columns:minmax(0,1fr)}#ev-root .ev-compare-word+.ev-compare-word{border-left:0;border-top:1px solid var(--color-border)}#ev-root .ev-compare-word>header{min-height:0}#ev-root .ev-card-title{padding-right:115px}#ev-root .ev-card-title>.ev-word-metadata{max-width:110px}#ev-root .ev-card-title .ev-style-badge{font-size:.72rem}}
 #ev-root .ev-word-metadata>span{font-size:.68rem}
+#ev-root .ev-word-metadata>span{--ev-tag:#526579;color:color-mix(in srgb,var(--ev-tag) 80%,var(--color-text));border-color:color-mix(in srgb,var(--ev-tag) 40%,var(--color-border));background:color-mix(in srgb,var(--ev-tag) 9%,var(--color-surface))}
+#ev-root .ev-word-metadata [data-ev-style="Нейтральное"]{--ev-tag:#2267a9}
+#ev-root .ev-word-metadata [data-ev-style="Разговорное"]{--ev-tag:#29815c}
+#ev-root .ev-word-metadata [data-ev-style="Формальное"]{--ev-tag:#8054a8}
+#ev-root .ev-word-metadata [data-ev-frequency="Часто"]{--ev-tag:#27814f}
+#ev-root .ev-word-metadata [data-ev-frequency="Реже"]{--ev-tag:#a96825}
+#ev-root .ev-word-metadata [data-ev-frequency="В своей среде"]{--ev-tag:#337e89}
+#ev-root .ev-word-metadata [data-ev-pos^="наречие"]{--ev-tag:#a46b24}
+#ev-root .ev-word-metadata [data-ev-pos^="прилагательное"]{--ev-tag:#287d87}
+#ev-root .ev-word-metadata [data-ev-pos^="глагол"]{--ev-tag:#aa5355}
+#ev-root .ev-word-metadata [data-ev-pos^="существительное"]{--ev-tag:#5c65a7}
+#ev-root .ev-word-metadata [data-ev-pos^="междометие"]{--ev-tag:#a34d80}
+#ev-root .ev-replacement-guide{margin-top:18px;padding:14px 16px;border:1px solid color-mix(in srgb,var(--ev-color) 35%,var(--color-border));border-radius:8px}
+#ev-root .ev-replacement-guide h6{margin:0 0 8px;font-size:.9rem;color:var(--ev-ink)}
+#ev-root .ev-replacement-guide p{font-size:.9rem;line-height:1.65;margin:6px 0}
+#ev-root .ev-replacement-status{font-weight:650}
+#ev-root .ev-word-metadata [data-ev-pos^="разговорное наречие"],#ev-root .ev-word-metadata [data-ev-pos^="связующее наречие"]{--ev-tag:#a46b24}
+#ev-root .ev-word-metadata [data-ev-pos^="связка"],#ev-root .ev-word-metadata [data-ev-pos^="союз"]{--ev-tag:#7559a0}

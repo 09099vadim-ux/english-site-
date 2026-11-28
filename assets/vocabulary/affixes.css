@@ -44,3 +44,19 @@
 #tv-dictionary #afx-root .tv-affix-sentence{text-align:center;min-height:85px}
 @media(max-width:650px){#tv-dictionary #afx-root .afx-card:has(.afx-overlay){grid-column:1/-1}#tv-dictionary #afx-root .afx-compare-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#tv-dictionary #afx-root .afx-compare-grid>section:nth-child(odd){border-left:0}#tv-dictionary #afx-root .afx-compare-grid>section:nth-child(n+3){border-top:1px solid var(--color-border)}#tv-dictionary #afx-root .afx-overlay{padding-inline:12px;min-height:0}#tv-dictionary #afx-root .afx-compare-grid[style*="--afx-cols:3"]>section:last-child{grid-column:1/-1}#tv-dictionary #afx-root .afx-card{min-height:440px}}
 #tv-dictionary #afx-root .afx-summary{width:100%;max-width:none}
+/* Stable card bounds in both states; the wider layout is the default. */
+#tv-dictionary #afx-root .afx-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+#tv-dictionary #afx-root .afx-card,#tv-dictionary #afx-root .afx-card:has(.afx-overlay){grid-column:auto;height:535px;min-height:535px}
+#tv-dictionary #afx-root .afx-overlay{position:absolute;inset:0;height:100%;min-height:0;padding:52px 14px 14px;overflow:visible}
+#tv-dictionary #afx-root .afx-card-face{padding:22px}
+#tv-dictionary #afx-root .afx-overlay .afx-compare-grid{grid-template-columns:repeat(var(--afx-cols),minmax(0,1fr))}
+#tv-dictionary #afx-root .afx-overlay .afx-diagram{height:80px;width:125px;margin:4px auto}
+#tv-dictionary #afx-root .afx-overlay .afx-compare-grid p{font-size:.8rem;line-height:1.35}
+#tv-dictionary #afx-root .afx-overlay .afx-tone{font-size:.76rem;line-height:1.35}
+#tv-dictionary #afx-root .afx-overlay .afx-summary{font-size:.74rem!important;line-height:1.4!important;margin-top:10px!important}
+#tv-dictionary #afx-root .afx-overlay .afx-compare-tabs{gap:4px;margin:6px 0 10px}
+#tv-dictionary #afx-root .afx-overlay .afx-compare-tabs button{font-size:.68rem;padding:5px;min-height:30px}
+@media(max-width:1050px){#tv-dictionary #afx-root .afx-grid{grid-template-columns:1fr}}
+@media(max-width:620px){#tv-dictionary #afx-root .afx-card,#tv-dictionary #afx-root .afx-card:has(.afx-overlay){height:650px;min-height:650px}#tv-dictionary #afx-root .afx-overlay .afx-compare-grid{grid-template-columns:repeat(2,minmax(0,1fr))}#tv-dictionary #afx-root .afx-overlay .afx-compare-grid[style*="--afx-cols:3"]>section:last-child{grid-column:1/-1}#tv-dictionary #afx-root .afx-overlay .afx-diagram{height:72px;width:115px}#tv-dictionary #afx-root .afx-card-face{padding:20px}}
+@media(max-width:620px){#tv-dictionary #afx-root .afx-card,#tv-dictionary #afx-root .afx-card:has(.afx-overlay){height:730px;min-height:730px}}
+@media(max-width:360px){#tv-dictionary #afx-root .afx-card,#tv-dictionary #afx-root .afx-card:has(.afx-overlay){height:820px;min-height:820px}}
